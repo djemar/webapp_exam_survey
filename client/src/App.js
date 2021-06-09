@@ -6,16 +6,20 @@ import "./App.css";
 import MyNavbar from "./components/Navbar";
 import SurveyCard from "./components/SurveyCard";
 import Survey from "./components/Survey";
+import LoginForm from "./components/LoginForm";
 
 const cards = [1, 2, 3, 4, 5];
 function App() {
   return (
-    <Container fluid>
-      <MyNavbar />
-      <Row className='vh-100 below-nav'>
-        <Col className='text-center p-0'>
-          <Router>
+    <Router>
+      <Container fluid>
+        <MyNavbar />
+        <Row className='vh-100 below-nav'>
+          <Col className='text-center p-0'>
             <Switch>
+              <Route exact path='/login'>
+                <LoginForm />
+              </Route>
               <Route exact path='/'>
                 <h3 id='title-main' className='my-4 text-center text-uppercase'>
                   Available surveys
@@ -32,10 +36,10 @@ function App() {
               </Route>
               <Redirect to='/' />
             </Switch>
-          </Router>
-        </Col>
-      </Row>
-    </Container>
+          </Col>
+        </Row>
+      </Container>
+    </Router>
   );
 }
 
