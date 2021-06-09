@@ -4,6 +4,7 @@
   margin: 1rem;
   display: inline-block;
   text-align: start;
+  border-radius: 12px;
 }
 
 /* .survey-card:hover {
@@ -16,7 +17,7 @@
   margin-bottom: 1rem;
   font-weight: 500;
   font-family: "IBM Plex Sans", sans-serif;
-  font-size: small;
+  font-size: smaller;
   border-radius: 30px;
   color: #1976d2;
   border-color: #1976d2;

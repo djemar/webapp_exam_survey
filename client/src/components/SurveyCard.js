@@ -10,7 +10,7 @@ const SurveyCard = (props) => {
         <Card.Title id='survey-title'>Survey Title Incredible Amazing</Card.Title>
         <Card.Text>by Diego Marino</Card.Text>
         <Link to='/survey/id'>
-          <Button id='btn-survey-card' variant='outline' className='text-uppercase'>
+          <Button id='btn-survey-card' variant='outline'>
             Take survey
           </Button>
         </Link>
