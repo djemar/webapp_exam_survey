@@ -1,0 +1,11 @@
+#navbar {
+  background-color: #eceff1;
+}
+
+#btn-login {
+  border-radius: 30px;
+  background-color: #1976d2;
+}
+#btn-login:hover {
+  background-color: #1e88e5;
+}
