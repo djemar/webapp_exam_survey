@@ -1,0 +1,17 @@
+.closed-question-card,
+.open-question-card {
+  width: 50rem;
+  margin: 0.5rem;
+  padding: 1rem;
+  text-align: start;
+  border-radius: 12px;
+}
+
+.question-text {
+  font-weight: 500;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.custom-control-label {
+  padding-left: 0.75rem;
+}
