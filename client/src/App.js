@@ -1,12 +1,13 @@
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { React } from "react";
 import { BrowserRouter as Router, Route, useParams, useHistory, Switch, Redirect } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap/";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 import MyNavbar from "./components/Navbar";
 import SurveyCard from "./components/SurveyCard";
 import Survey from "./components/Survey";
 import LoginForm from "./components/LoginForm";
+import SurveyTemplate from "./components/SurveyTemplate";
 
 const cards = [1, 2, 3, 4, 5];
 function App() {
@@ -33,6 +34,12 @@ function App() {
                   Survey Title
                 </h3>
                 <Survey />
+              </Route>
+              <Route path={["/admin/:action"]}>
+                <h3 id='title-main' className='my-4 text-center'>
+                  Create Survey
+                </h3>
+                <SurveyTemplate />
               </Route>
               <Redirect to='/' />
             </Switch>
