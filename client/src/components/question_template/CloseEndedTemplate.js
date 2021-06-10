@@ -3,19 +3,23 @@ import { Plus, XCircleFill } from "react-bootstrap-icons";
 import "../../css/Question.css";
 import { useState } from "react";
 
-const answerTemplate = { id: 1, text: "Answer" };
+const answerTemplate = { id: 0, text: "Answer" };
 
 function CloseEndedTemplate(props) {
   const { type } = props;
   const [answers, setAnswers] = useState([answerTemplate]);
-  const [showTooltip, setShowTooltip] = useState(false);
 
   const handleAddAnswer = () => {
-    if (answers.length < 10) setAnswers([...answers, { id: answers.length + 1, text: "Answer" }]);
+    if (answers.length < 10) setAnswers([...answers, { id: answers.length, text: "Answer" }]);
   };
 
   const handleDeleteAnswer = (id) => {
-    setAnswers(answers.filter((item) => item.id !== id));
+    let newAnswers = [...answers];
+    newAnswers = newAnswers.filter((item) => item.id !== id);
+    newAnswers.forEach((a, index) => {
+      a.id = index; //iterate over array and update ids -> necessary if item from the middle of array is removed
+    });
+    setAnswers(newAnswers);
   };
 
   return (
@@ -28,7 +32,7 @@ function CloseEndedTemplate(props) {
           <div key={a.id} className='my-3 ml-3 d-flex flex-row align-items-center'>
             <Form.Check custom type={type} id={`custom-`} disabled />
             <Form.Control type='text' placeholder={a.text} />
-            {a.id > 1 ? (
+            {a.id > 0 ? (
               <XCircleFill id='btn-delete-answer' size={25} onClick={() => handleDeleteAnswer(a.id)} />
             ) : (
               <> </>
@@ -36,22 +40,16 @@ function CloseEndedTemplate(props) {
           </div>
         ))}
         <div className='d-flex justify-content-center'>
-          <OverlayTrigger
-            key='alert-tooltip'
-            placement='top'
-            show={showTooltip}
-            overlay={<Tooltip id={`tooltip-top`}>You reached the maximum number of answers (10)</Tooltip>}>
-            <Button
-              id='btn-add-answer'
-              disabled={answers.length === 10}
-              className='my-3'
-              variant='light'
-              size='sm'
-              onClick={handleAddAnswer}>
-              <Plus />
-              Add answer
-            </Button>
-          </OverlayTrigger>
+          <Button
+            id='btn-add-answer'
+            disabled={answers.length === 10}
+            className='my-3'
+            variant='light'
+            size='sm'
+            onClick={handleAddAnswer}>
+            <Plus />
+            Add answer
+          </Button>
         </div>
       </Form.Group>
     </>
