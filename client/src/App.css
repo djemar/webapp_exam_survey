@@ -1,10 +1,10 @@
 /* Global */
 .vheight-100 {
-  min-height: 100vh;
+  min-height: calc(100% - 58.3px);
 }
 
 .below-nav {
-  padding-top: 5rem;
+  padding-top: 58.3px;
 }
 
 #title-main {

@@ -15,7 +15,7 @@ function App() {
       <Container fluid>
         <MyNavbar />
         <Row className='vh-100 below-nav'>
-          <Col className='text-center p-0'>
+          <Col className='text-center p-0 m-0'>
             <Switch>
               <Route exact path='/login'>
                 <LoginForm />
