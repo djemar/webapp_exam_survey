@@ -8,8 +8,8 @@ const MyNavbar = (props) => {
     <Navbar id='navbar' variant='light' fixed='top' className='px-3 d-flex justify-content-between'>
       {/* <Navbar.Toggle aria-controls="left-sidebar" onClick={this.showSidebar}/> */}
       <Navbar.Toggle aria-controls='left-sidebar' />
-      <Link to='/'>
-        <Navbar.Brand id='navbar-brand' href='/'>
+      <Link id='nav-home' to='/'>
+        <Navbar.Brand id='navbar-brand'>
           <JournalCheck className='mr-1' size='30' /> Survey.me
         </Navbar.Brand>
       </Link>
