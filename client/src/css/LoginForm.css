@@ -1,0 +1,23 @@
+#login-form-root {
+  height: fit-content;
+  width: fit-content;
+  margin: auto;
+  padding: 3rem;
+  margin-top: 10rem;
+}
+
+#login-title {
+  margin-bottom: 5rem;
+  font-weight: 600;
+}
+
+#btn-form-login {
+  font-family: "IBM Plex Sans", sans-serif;
+  background-color: #1976d2;
+  margin-top: 2rem !important;
+  border-radius: 7px;
+}
+
+#btn-form-login:hover {
+  background-color: #1e88e5;
+}
