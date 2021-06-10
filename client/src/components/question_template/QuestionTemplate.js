@@ -66,7 +66,7 @@ function QuestionTemplate(props) {
         </Form>
       </Card>
       <div id='question-actions' className='ml-3 d-flex flex-column'>
-        <ButtonGroup size='sm' vertical aria-label='Move question up/down' className='mb-3'>
+        <ButtonGroup size='sm' vertical aria-label='Move question up/down' className='mb-4'>
           <OverlayTrigger
             key='overlay-move-up'
             placement='right'
