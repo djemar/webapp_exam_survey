@@ -41,3 +41,8 @@
   color: #d83e3e;
   cursor: pointer;
 }
+
+.btn-move-question {
+  background-color: #f7f7f7;
+  border-color: gainsboro;
+}
