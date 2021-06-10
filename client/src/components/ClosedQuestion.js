@@ -1,4 +1,4 @@
-import { Card, Nav, Button, Form } from "react-bootstrap/";
+import { Card, Nav, Button, Form, ListGroup, Row, Col } from "react-bootstrap/";
 import { PencilSquare } from "react-bootstrap-icons";
 import "../css/Question.css";
 
@@ -9,11 +9,11 @@ const ClosedQuestion = (props) => {
     <Card className='closed-question-card'>
       <Card.Body>
         <Card.Title className='question-text'>Who wants to live forever?</Card.Title>
-        {answers.map((n) => (
-          <Form.Group controlId={`ControlTextArea-${n}`}>
+        <Form.Group className='checkbox-group' controlId={`ControlTextArea-{n}`}>
+          {answers.map((n) => (
             <Form.Check custom type='checkbox' id={`custom-${n}`} className='p-3' label='Freddie Mercury' />
-          </Form.Group>
-        ))}
+          ))}
+        </Form.Group>
       </Card.Body>
     </Card>
   );
