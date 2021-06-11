@@ -44,8 +44,9 @@ function QuestionTemplate(props) {
   };
 
   const handleChangeSelection = (e) => {
+    question.answers.length = 0;
     setAnswers([answerTemplate]);
-    console.log(answers);
+
     const q = parseInt(e.target.value);
     if (q === QUESTION_TYPE.OPEN) {
       question.max = 0;
