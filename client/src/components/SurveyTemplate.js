@@ -4,13 +4,13 @@ import "../css/Survey.css";
 import QuestionTemplate from "./question_template/QuestionTemplate";
 import { useState } from "react";
 
-const questionTemplate = {id: 0, text: "Type your question here", answers: []};
+const questionTemplate = {id: 0, min: 0, max: 0, text: "Type your question here", answers: []};
 
 function SurveyTemplate (props) {
   const [questions, setQuestions] = useState([questionTemplate]);
 
   const handleAddQuestion = () => {
-    setQuestions([...questions, { id: questions.length, text: "Type your question here" }]);
+    setQuestions([...questions, { id: questions.length, min: 0, max: 0, text: "Type your question here", answers: [] }]);
   };
 
   return (
