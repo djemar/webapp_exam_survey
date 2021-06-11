@@ -11,22 +11,41 @@ const QUESTION_TYPE = {
   MULTIPLE: 2,
 };
 
+const answerTemplate = { id: 0, text: "Answer" };
+
 function QuestionTemplate(props) {
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.OPEN);
+  const {questionList, setQuestionList, question} = props;
+  const [answers, setAnswers] = useState([answerTemplate]);
+
+  const handleDeleteQuestion= (id) => {
+    let newQuestions = [...questionList];
+    newQuestions = newQuestions.filter((item) => item.id !== id);
+    newQuestions.forEach((q, index) => {
+      q.id = index; //iterate over array and update ids -> necessary if item from the middle of array is removed
+    });
+    setQuestionList(newQuestions);
+  };  
+
+  const handleSaveQuestion = () => {
+    console.log(answers);
+    question.answers.push(...answers);
+    console.log(question);
+  };  
 
   const handleChangeSelection = (event) => {
-    const q = event.target.value;
-    if (q == QUESTION_TYPE.OPEN) {
+    const q = parseInt(event.target.value);
+    if (q === QUESTION_TYPE.OPEN) {
       setQuestionType(QUESTION_TYPE.OPEN);
-    } else if (q == QUESTION_TYPE.SINGLE) {
+    } else if (q === QUESTION_TYPE.SINGLE) {
       setQuestionType(QUESTION_TYPE.SINGLE);
-    } else if (q == QUESTION_TYPE.MULTIPLE) {
+    } else if (q === QUESTION_TYPE.MULTIPLE) {
       setQuestionType(QUESTION_TYPE.MULTIPLE);
     }
   };
 
   return (
-    <div className='d-flex flex-row'>
+    <div className='d-flex flex-row my-5'>
       <Card>
         <Form>
           <Card.Header className='question-template-header'>
@@ -55,12 +74,13 @@ function QuestionTemplate(props) {
             {questionType === QUESTION_TYPE.OPEN ? (
               <OpenEndedTemplate />
             ) : questionType === QUESTION_TYPE.SINGLE ? (
-              <CloseEndedTemplate type='radio' />
+              <CloseEndedTemplate type='radio' question={question} answers={answers} setAnswers={setAnswers}/>
             ) : (
-              <CloseEndedTemplate type='checkbox' />
+              <CloseEndedTemplate type='checkbox' question={question} answers={answers} setAnswers={setAnswers}/>
             )}
           </Card.Body>
-          <Card.Footer className='text-right'>
+          <Card.Footer className='d-flex justify-content-between align-items-center'>
+            <Button variant='outline-secondary' onClick={handleSaveQuestion}>Save Question</Button>
             <Form.Check custom type='switch' id='custom-switch' label='This question is mandatory' />
           </Card.Footer>
         </Form>
@@ -88,7 +108,7 @@ function QuestionTemplate(props) {
           key='overlay-delete'
           placement='right'
           overlay={<Tooltip id={`tooltip-delete`}>Delete question</Tooltip>}>
-          <Button size='sm' variant='danger'>
+          <Button size='sm' variant='danger' onClick={() => handleDeleteQuestion(question.id)}>
             <TrashFill />
           </Button>
         </OverlayTrigger>

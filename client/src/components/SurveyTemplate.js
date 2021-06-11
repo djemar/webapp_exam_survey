@@ -2,21 +2,28 @@ import { Card, Nav, Button, ListGroup } from "react-bootstrap/";
 import { PencilSquare } from "react-bootstrap-icons";
 import "../css/Survey.css";
 import QuestionTemplate from "./question_template/QuestionTemplate";
+import { useState } from "react";
 
-const questions = [1, 2, 3, 4, 5];
+const questionTemplate = {id: 0, text: "Type your question here", answers: []};
 
-const SurveyTemplate = (props) => {
+function SurveyTemplate (props) {
+  const [questions, setQuestions] = useState([questionTemplate]);
+
+  const handleAddQuestion = () => {
+    setQuestions([...questions, { id: questions.length, text: "Type your question here" }]);
+  };
+
   return (
     <div className='survey-page'>
       <div className='mx-5'>
-        <ListGroup>
-          <QuestionTemplate />
-        </ListGroup>
-        <Button variant='primary' block className='mb-5 mt-5'>
+          {questions.map((q) => (
+          <QuestionTemplate key={q.id} questionList={questions} setQuestionList={setQuestions} question={q} />
+          ))}
+        <Button variant='primary' block className='mb-5 mt-5' onClick={handleAddQuestion}>
           Add a question
         </Button>
-        <Button variant='success' className='mb-5 mt-5'>
-          Publish
+        <Button variant='success' block className='mb-5 mt-5'>
+          Publish Survey
         </Button>
       </div>
     </div>
