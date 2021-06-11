@@ -1,26 +1,13 @@
-import {
-  Card,
-  Nav,
-  Button,
-  Form,
-  ListGroup,
-  Row,
-  Col,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap/";
+import { Card, Nav, Button, Form, ListGroup, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap/";
 import { Plus, XCircleFill } from "react-bootstrap-icons";
 import "../../css/Question.css";
-import { useState } from "react";
-
-
+import { useEffect, useState } from "react";
 
 function CloseEndedTemplate(props) {
   const { type, question, answers, setAnswers } = props;
 
   const handleAddAnswer = () => {
-    if (answers.length < 10)
-      setAnswers([...answers, { id: answers.length, text: "Answer" }]);
+    if (answers.length < 10) setAnswers([...answers, { id: answers.length, text: "Answer" }]);
   };
 
   const handleInputAnswer = (a, value) => {
@@ -34,7 +21,7 @@ function CloseEndedTemplate(props) {
     setAnswers(tmpAnswers);
   };
 
-  const handleInputQuestion= (value) => {
+  const handleInputQuestion = (value) => {
     question.text = value;
   };
 
@@ -49,44 +36,33 @@ function CloseEndedTemplate(props) {
 
   return (
     <>
-      <Card.Title className="question-text">
-        <Form.Control type="text" placeholder="Type your question here" onInput={e => handleInputQuestion(e.target.value)} />
+      <Card.Title className='question-text'>
+        <Form.Control
+          type='text'
+          placeholder='Type your question here'
+          onInput={(e) => handleInputQuestion(e.target.value)}
+        />
       </Card.Title>
-      <Form.Group
-        className={`${type}-group-template`}
-        controlId={`ControlTextArea-{n}`}
-      >
+      <Form.Group className={`${type}-group-template`} controlId={`ControlTextArea-{n}`}>
         {answers.map((a) => (
-          <div
-            key={a.id}
-            className="my-3 ml-3 d-flex flex-row align-items-center"
-          >
+          <div key={a.id} className='my-3 ml-3 d-flex flex-row align-items-center'>
             <Form.Check custom type={type} id={`custom-`} disabled />
-            <Form.Control
-              type="text"
-              value={a.text}
-              onInput={e => handleInputAnswer(a, e.target.value)}
-            />
+            <Form.Control type='text' value={a.text} onInput={(e) => handleInputAnswer(a, e.target.value)} />
             {a.id > 0 ? (
-              <XCircleFill
-                id="btn-delete-answer"
-                size={25}
-                onClick={() => handleDeleteAnswer(a.id)}
-              />
+              <XCircleFill id='btn-delete-answer' size={25} onClick={() => handleDeleteAnswer(a.id)} />
             ) : (
               <> </>
             )}
           </div>
         ))}
-        <div className="d-flex justify-content-center">
+        <div className='d-flex justify-content-center'>
           <Button
-            id="btn-add-answer"
+            id='btn-add-answer'
             disabled={answers.length === 10}
-            className="my-3"
-            variant="light"
-            size="sm"
-            onClick={handleAddAnswer}
-          >
+            className='my-3'
+            variant='light'
+            size='sm'
+            onClick={handleAddAnswer}>
             <Plus />
             Add answer
           </Button>
