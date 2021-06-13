@@ -136,6 +136,7 @@ function QuestionTemplate(props) {
           <Card.Footer className='d-flex justify-content-between align-items-center'>
             <Button
               variant={`${question.isSaved ? "outline-success" : "outline-secondary"}`}
+              disabled={question.isSaved ? true : false}
               onClick={handleSaveQuestion}>
               {question.isSaved ? (
                 <>
