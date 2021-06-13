@@ -160,14 +160,18 @@ function QuestionTemplate(props) {
             </Button>
           </OverlayTrigger>
         </ButtonGroup>
-        <OverlayTrigger
-          key='overlay-delete'
-          placement='right'
-          overlay={<Tooltip id={`tooltip-delete`}>Delete question</Tooltip>}>
-          <Button size='sm' variant='danger' onClick={() => handleDeleteQuestion(question.id)}>
-            <TrashFill />
-          </Button>
-        </OverlayTrigger>
+        {question.id > 0 ? (
+          <OverlayTrigger
+            key='overlay-delete'
+            placement='right'
+            overlay={<Tooltip id={`tooltip-delete`}>Delete question</Tooltip>}>
+            <Button size='sm' variant='danger' onClick={() => handleDeleteQuestion(question.id)}>
+              <TrashFill />
+            </Button>
+          </OverlayTrigger>
+        ) : (
+          <> </>
+        )}
       </div>
     </div>
   );
