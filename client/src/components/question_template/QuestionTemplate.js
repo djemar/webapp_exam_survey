@@ -63,33 +63,39 @@ function QuestionTemplate(props) {
   };
 
   const handleChangeSelection = (e) => {
-    question.answers.length = 0;
+    let tmpQuestions = [...questionList];
+    tmpQuestions[question.id].answers.length = 0;
     setAnswers([answerTemplate]);
 
     const q = parseInt(e.target.value);
     if (q === QUESTION_TYPE.OPEN) {
-      question.max = 0;
+      tmpQuestions[question.id].max = 0;
       setQuestionType(QUESTION_TYPE.OPEN);
     } else if (q === QUESTION_TYPE.SINGLE) {
-      question.max = 1;
+      tmpQuestions[question.id].max = 1;
       setQuestionType(QUESTION_TYPE.SINGLE);
     } else if (q === QUESTION_TYPE.MULTIPLE) {
       setQuestionType(QUESTION_TYPE.MULTIPLE);
     }
+    setQuestionList(tmpQuestions);
   };
 
   const handleChangeMandatory = (e) => {
+    let tmpQuestions = [...questionList];
     const mandatory = e.target.checked;
     if (mandatory) {
-      question.min = 1;
+      tmpQuestions[question.id].min = 1;
     } else {
-      question.min = 0;
+      tmpQuestions[question.id].min = 0;
     }
+    setQuestionList(tmpQuestions);
   };
 
   const handleMaxChange = (e) => {
+    let tmpQuestions = [...questionList];
     const max = parseInt(e.target.value);
-    question.max = max;
+    tmpQuestions[question.id].max = max;
+    setQuestionList(tmpQuestions);
   };
 
   return (
