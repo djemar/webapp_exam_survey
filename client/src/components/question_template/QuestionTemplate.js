@@ -1,5 +1,5 @@
 import { Card, Nav, Button, Form, ListGroup, Row, Col, ButtonGroup, OverlayTrigger, Tooltip } from "react-bootstrap/";
-import { TrashFill, ChevronUp, ChevronDown } from "react-bootstrap-icons";
+import { TrashFill, ChevronUp, ChevronDown, Check2 } from "react-bootstrap-icons";
 import "../../css/Question.css";
 import { useEffect, useState } from "react";
 import OpenEndedTemplate from "./OpenEndedTemplate";
@@ -128,8 +128,16 @@ function QuestionTemplate(props) {
             )}
           </Card.Body>
           <Card.Footer className='d-flex justify-content-between align-items-center'>
-            <Button variant='outline-secondary' onClick={handleSaveQuestion}>
-              Save Question
+            <Button
+              variant={`${question.isSaved ? "outline-success" : "outline-secondary"}`}
+              onClick={handleSaveQuestion}>
+              {question.isSaved ? (
+                <>
+                  <Check2 size={20} /> Saved
+                </>
+              ) : (
+                <> Save Question </>
+              )}
             </Button>
             <Form.Check
               custom
