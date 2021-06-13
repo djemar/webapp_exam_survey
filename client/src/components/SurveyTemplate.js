@@ -5,7 +5,15 @@ import QuestionTemplate from "./question_template/QuestionTemplate";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-const questionTemplate = { key: uuidv4(), id: 0, min: 0, max: 0, text: "Type your question here", answers: [] };
+const questionTemplate = {
+  key: uuidv4(),
+  id: 0,
+  min: 0,
+  max: 0,
+  text: "Type your question here",
+  answers: [],
+  isSaved: false,
+};
 
 function SurveyTemplate(props) {
   const [questions, setQuestions] = useState([questionTemplate]);
@@ -20,6 +28,7 @@ function SurveyTemplate(props) {
         max: 0,
         text: "Type your question here",
         answers: [],
+        isSaved: false,
       },
     ]);
   };

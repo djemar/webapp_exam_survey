@@ -28,7 +28,10 @@ function QuestionTemplate(props) {
   };
 
   const handleSaveQuestion = () => {
-    question.answers.push(...answers);
+    let savedQuestions = [...questionList];
+    savedQuestions[question.id].answers.push(...answers);
+    savedQuestions[question.id].isSaved = true;
+    setQuestionList(savedQuestions);
     console.log(question);
   };
 
@@ -117,7 +120,7 @@ function QuestionTemplate(props) {
           </Card.Header>
           <Card.Body className='closed-question-card'>
             {questionType === QUESTION_TYPE.OPEN ? (
-              <OpenEndedTemplate />
+              <OpenEndedTemplate question={question} />
             ) : questionType === QUESTION_TYPE.SINGLE ? (
               <CloseEndedTemplate type='radio' question={question} answers={answers} setAnswers={setAnswers} />
             ) : (
