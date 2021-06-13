@@ -1,4 +1,4 @@
-import { Card, Nav, Button, ListGroup } from "react-bootstrap/";
+import { Card, Nav, Button, ListGroup, OverlayTrigger, Tooltip } from "react-bootstrap/";
 import { PencilSquare } from "react-bootstrap-icons";
 import "../css/Survey.css";
 import QuestionTemplate from "./question_template/QuestionTemplate";
@@ -33,18 +33,51 @@ function SurveyTemplate(props) {
     ]);
   };
 
+  const ConditionalWrapper = ({ condition, wrapper, children }) => (condition ? wrapper(children) : children); //enable tooltip only if button is disabled
+
   return (
     <div className='survey-page'>
       <div className='mx-5'>
         {questions.map((q) => (
           <QuestionTemplate key={q.key} questionList={questions} setQuestionList={setQuestions} question={q} />
         ))}
-        <Button variant='primary' block className='mb-5 mt-5' onClick={handleAddQuestion}>
-          Add a question
-        </Button>
-        <Button variant='success' block className='mb-5 mt-5'>
-          Publish Survey
-        </Button>
+        <ConditionalWrapper
+          condition={!questions[questions.length - 1].isSaved}
+          wrapper={(children) => (
+            <OverlayTrigger
+              overlay={<Tooltip id='tooltip-disabled'>Save the last question before adding a new one!</Tooltip>}>
+              {children}
+            </OverlayTrigger>
+          )}>
+          <span>
+            <Button
+              variant='primary'
+              block
+              className='mb-5 mt-5'
+              onClick={handleAddQuestion}
+              disabled={questions[questions.length - 1].isSaved ? false : true}>
+              Add a question
+            </Button>
+          </span>
+        </ConditionalWrapper>
+        <ConditionalWrapper
+          condition={!questions[questions.length - 1].isSaved}
+          wrapper={(children) => (
+            <OverlayTrigger
+              overlay={<Tooltip id='tooltip-disabled'>Save the last question before publishing the survey!</Tooltip>}>
+              {children}
+            </OverlayTrigger>
+          )}>
+          <span>
+            <Button
+              variant='success'
+              block
+              className='mb-5 mt-5'
+              disabled={questions[questions.length - 1].isSaved ? false : true}>
+              Publish Survey
+            </Button>
+          </span>
+        </ConditionalWrapper>
       </div>
     </div>
   );
