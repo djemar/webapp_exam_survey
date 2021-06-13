@@ -1,13 +1,14 @@
 import { Card, Nav, Button, Form, ListGroup, Row, Col, OverlayTrigger, Tooltip } from "react-bootstrap/";
 import { Plus, XCircleFill } from "react-bootstrap-icons";
 import "../../css/Question.css";
+import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 
 function CloseEndedTemplate(props) {
   const { type, question, answers, setAnswers } = props;
 
   const handleAddAnswer = () => {
-    if (answers.length < 10) setAnswers([...answers, { id: answers.length, text: "Answer" }]);
+    if (answers.length < 10) setAnswers([...answers, { key: uuidv4(), id: answers.length, text: "Answer" }]);
   };
 
   const handleInputAnswer = (a, value) => {
@@ -45,9 +46,9 @@ function CloseEndedTemplate(props) {
       </Card.Title>
       <Form.Group className={`${type}-group-template`} controlId={`ControlTextArea-{n}`}>
         {answers.map((a) => (
-          <div key={a.id} className='my-3 ml-3 d-flex flex-row align-items-center'>
+          <div key={a.key} className='my-3 ml-3 d-flex flex-row align-items-center'>
             <Form.Check custom type={type} id={`custom-`} disabled />
-            <Form.Control type='text' value={a.text} onInput={(e) => handleInputAnswer(a, e.target.value)} />
+            <Form.Control type='text' placeholder='Answer' onInput={(e) => handleInputAnswer(a, e.target.value)} />
             {a.id > 0 ? (
               <XCircleFill id='btn-delete-answer' size={25} onClick={() => handleDeleteAnswer(a.id)} />
             ) : (

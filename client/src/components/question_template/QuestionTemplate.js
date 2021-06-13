@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 import OpenEndedTemplate from "./OpenEndedTemplate";
 import CloseEndedTemplate from "./CloseEndedTemplate";
 
+import { v4 as uuidv4 } from "uuid";
+
 const QUESTION_TYPE = {
   OPEN: 0,
   SINGLE: 1,
   MULTIPLE: 2,
 };
 
-const answerTemplate = { id: 0, text: "Answer" };
+const answerTemplate = { key: uuidv4(), id: 0, text: "Answer" };
 
 function QuestionTemplate(props) {
   const { questionList, setQuestionList, question } = props;
