@@ -21,15 +21,40 @@ function QuestionTemplate(props) {
   const handleDeleteQuestion = (id) => {
     let newQuestions = [...questionList];
     newQuestions = newQuestions.filter((item) => item.id !== id);
-    newQuestions.forEach((q, index) => {
-      q.id = index; //iterate over array and update ids -> necessary if item from the middle of array is removed
-    });
+    updateId(newQuestions);
     setQuestionList(newQuestions);
   };
 
   const handleSaveQuestion = () => {
     question.answers.push(...answers);
     console.log(question);
+  };
+
+  const updateId = (tmpQuestionList) => {
+    tmpQuestionList.forEach((q, index) => {
+      q.id = index; //iterate over array and update ids -> necessary if item from the middle of array is removed
+    });
+  };
+
+  const handleMoveUp = () => {
+    const from = question.id;
+    const to = question.id - 1;
+    if (to >= 0) {
+      let tmpQuestionList = [...questionList];
+      move(tmpQuestionList, from, to);
+      updateId(tmpQuestionList);
+      setQuestionList(tmpQuestionList);
+    }
+  };
+  const handleMoveDown = () => {
+    const from = question.id;
+    const to = question.id + 1;
+    if (to < questionList.length) {
+      let tmpQuestionList = [...questionList];
+      move(tmpQuestionList, from, to);
+      updateId(tmpQuestionList);
+      setQuestionList(tmpQuestionList);
+    }
   };
 
   const handleChangeSelection = (e) => {
@@ -117,7 +142,7 @@ function QuestionTemplate(props) {
             key='overlay-move-up'
             placement='right'
             overlay={<Tooltip id={`tooltip-move-up`}>Move up</Tooltip>}>
-            <Button className='btn-move-question' variant='light'>
+            <Button className='btn-move-question' variant='light' onClick={handleMoveUp}>
               <ChevronUp />
             </Button>
           </OverlayTrigger>
@@ -125,7 +150,7 @@ function QuestionTemplate(props) {
             key='overlay-move-down'
             placement='right'
             overlay={<Tooltip id={`tooltip-move-down`}>Move down</Tooltip>}>
-            <Button className='btn-move-question' variant='light'>
+            <Button className='btn-move-question' variant='light' onClick={handleMoveDown}>
               <ChevronDown />
             </Button>
           </OverlayTrigger>
@@ -141,6 +166,17 @@ function QuestionTemplate(props) {
       </div>
     </div>
   );
+}
+
+function move(input, from, to) {
+  //https://dev.to/jalal246/moving-element-in-an-array-from-index-to-another-464b
+  let numberOfDeletedElm = 1;
+
+  const elm = input.splice(from, numberOfDeletedElm)[0];
+
+  numberOfDeletedElm = 0;
+
+  input.splice(to, numberOfDeletedElm, elm);
 }
 
 export default QuestionTemplate;
