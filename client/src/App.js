@@ -27,9 +27,13 @@ function App() {
               <Route path={["/survey/:id"]}>
                 <Survey />
               </Route>
-              <Route path={["/admin/:action"]}>
+              <Route path={["/admin/dashboard"]}>
                 <AdminDashboard />
               </Route>
+              <Route path={["/admin/create"]}>
+                <SurveyTemplate />
+              </Route>
+              {/* TODO different redirects if logged in or not */}
               <Redirect to='/' />
             </Switch>
           </Col>
