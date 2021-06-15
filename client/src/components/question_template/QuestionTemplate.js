@@ -197,7 +197,7 @@ function QuestionTemplate(props) {
 }
 
 function move(input, from, to) {
-  //https://dev.to/jalal246/moving-element-in-an-array-from-index-to-another-464b
+  //TODO https://dev.to/jalal246/moving-element-in-an-array-from-index-to-another-464b
   let numberOfDeletedElm = 1;
 
   const elm = input.splice(from, numberOfDeletedElm)[0];
