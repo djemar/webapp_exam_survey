@@ -1,0 +1,19 @@
+#n-surveys {
+  font-size: 1.25em;
+}
+
+#listgroup-admin-surveys {
+  width: 35%;
+}
+
+.carousel-ic {
+  color: black;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  align-items: center;
+  height: 81.6px;
+}
