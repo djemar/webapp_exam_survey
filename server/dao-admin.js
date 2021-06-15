@@ -35,7 +35,7 @@ exports.getAdminById = (id) => {
       if (err) {
         reject(err);
       } else if (row === undefined) {
-        resolve({ error: "Admin not found!" });
+        resolve({ error: "Admin user not found!" });
       } else {
         const admin = { id: row.adminId, username: row.username };
         resolve(admin);
