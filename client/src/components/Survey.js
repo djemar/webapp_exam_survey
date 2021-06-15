@@ -18,9 +18,12 @@ function Survey(props) {
       </h3>
       <div className='survey-page'>
         <Form>
+          <h6 className='text-right mx-4'>
+            Questions marked with a <span className='mandatory' /> are mandatory
+          </h6>
           <Card className='open-question-card'>
             <Card.Body>
-              <Card.Title className='question-text'>What's your name?</Card.Title>
+              <Card.Title className='question-text mandatory'>What's your name?</Card.Title>
               <Form.Group controlId='ControlTextArea-1' className='p-2'>
                 <Form.Control
                   size='lg'
@@ -32,6 +35,9 @@ function Survey(props) {
             </Card.Body>
           </Card>
           {questions.map((n) => (n % 2 === 0 ? <OpenQuestion key={n} /> : <ClosedQuestion key={n} />))}
+          <h6 className='text-right mx-4'>
+            Questions marked with a <span className='mandatory' /> are mandatory{" "}
+          </h6>
           <Button type='submit' variant='success' className='mb-5 mt-2'>
             Send
           </Button>

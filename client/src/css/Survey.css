@@ -12,3 +12,8 @@
   font-weight: 500;
   font-size: x-large;
 }
+
+.mandatory::after {
+  content: " *";
+  color: red;
+}

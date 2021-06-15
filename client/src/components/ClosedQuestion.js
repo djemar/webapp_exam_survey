@@ -8,7 +8,7 @@ const ClosedQuestion = (props) => {
   return (
     <Card className='closed-question-card'>
       <Card.Body>
-        <Card.Title className='question-text'>Who wants to live forever?</Card.Title>
+        <Card.Title className='question-text'>Who wants to live forever? (TODO: max answers: 2)</Card.Title>
         <Form.Group className='checkbox-group' controlId={`ControlTextArea-{n}`}>
           {answers.map((n) => (
             <Form.Check custom type='checkbox' id={`custom-${n}`} className='p-3' label='Freddie Mercury' />
