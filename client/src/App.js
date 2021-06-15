@@ -27,7 +27,7 @@ function App() {
               <Route path={["/survey/:id"]}>
                 <Survey />
               </Route>
-              <Route path={["/admin/dashboard"]}>
+              <Route path={["/admin/mySurveys"]}>
                 <AdminDashboard />
               </Route>
               <Route path={["/admin/create"]}>
