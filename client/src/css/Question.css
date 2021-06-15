@@ -43,6 +43,12 @@
 }
 
 .btn-move-question {
-  background-color: #f7f7f7;
+  background-color: white;
   border-color: gainsboro;
+}
+
+.card-header,
+.card-footer {
+  font-weight: 500;
+  font-family: "IBM Plex Sans", sans-serif;
 }

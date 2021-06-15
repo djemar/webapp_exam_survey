@@ -133,7 +133,7 @@ function QuestionTemplate(props) {
               <CloseEndedTemplate type='checkbox' question={question} answers={answers} setAnswers={setAnswers} />
             )}
           </Card.Body>
-          <Card.Footer className='d-flex justify-content-between align-items-center'>
+          <Card.Footer bg='light' className='d-flex justify-content-between align-items-center'>
             <Button
               variant={`${question.isSaved ? "outline-success" : "outline-secondary"}`}
               disabled={question.isSaved ? true : false}
@@ -157,12 +157,12 @@ function QuestionTemplate(props) {
         </Form>
       </Card>
       <div id='question-actions' className='ml-3 d-flex flex-column'>
-        <ButtonGroup size='sm' vertical aria-label='Move question up/down' className='mb-4'>
+        <ButtonGroup size='sm' vertical aria-label='Move question up/down' className='mb-5'>
           <OverlayTrigger
             key='overlay-move-up'
             placement='right'
             overlay={<Tooltip id={`tooltip-move-up`}>Move up</Tooltip>}>
-            <Button className='btn-move-question' variant='light' onClick={handleMoveUp}>
+            <Button className='btn-move-question' variant='light' onClick={handleMoveUp} disabled={question.id === 0}>
               <ChevronUp />
             </Button>
           </OverlayTrigger>
@@ -170,7 +170,11 @@ function QuestionTemplate(props) {
             key='overlay-move-down'
             placement='right'
             overlay={<Tooltip id={`tooltip-move-down`}>Move down</Tooltip>}>
-            <Button className='btn-move-question' variant='light' onClick={handleMoveDown}>
+            <Button
+              className='btn-move-question'
+              variant='light'
+              onClick={handleMoveDown}
+              disabled={question.id === questionList.length - 1}>
               <ChevronDown />
             </Button>
           </OverlayTrigger>
