@@ -13,7 +13,7 @@ function AdminDashboard(props) {
         Your surveys
       </h3>
       <Row>
-        <ListGroup as={Col} id='listgroup-admin-surveys' className='m-0 p-0' defaultActiveKey='#1'>
+        <ListGroup as={Col} id='listgroup-admin-surveys' className='ml-3 p-0 ' defaultActiveKey='#1'>
           {surveys.map((s) => (
             <ListGroup.Item
               action
