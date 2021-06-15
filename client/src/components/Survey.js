@@ -8,12 +8,17 @@ const questions = [1, 2, 3, 4, 5];
 
 const Survey = (props) => {
   return (
-    <div className='survey-page'>
-      {questions.map((n) => (n % 2 === 0 ? <OpenQuestion /> : <ClosedQuestion />))}
-      <Button variant='success' className='mb-5 mt-2'>
-        Send
-      </Button>
-    </div>
+    <>
+      <h3 id='title-main' className='my-4 text-center'>
+        Survey Title - User
+      </h3>
+      <div className='survey-page'>
+        {questions.map((n) => (n % 2 === 0 ? <OpenQuestion key={n} /> : <ClosedQuestion key={n} />))}
+        <Button variant='success' className='mb-5 mt-2'>
+          Send
+        </Button>
+      </div>
+    </>
   );
 };
 
