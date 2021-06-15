@@ -4,7 +4,7 @@
 const sqlite = require("sqlite3");
 
 // open the database
-const db = new sqlite.Database("tasks.db", (err) => {
+const db = new sqlite.Database("survey.db", (err) => {
   if (err) throw err;
 });
 
@@ -123,66 +123,45 @@ exports.getSurveyByAdmin = (adminId) => {
   });
 };
 
-// add a new task
-exports.createTask = (task) => {
+// add a new survey
+exports.createSurvey = (survey) => {
   return new Promise((resolve, reject) => {
-    const sql =
-      "INSERT INTO tasks( description, important, private, deadline, completed, user) VALUES(?, ?, ?, ?, ?, ?)";
-    db.run(
-      sql,
-      [task.description, task.important, task.private, task.deadline, task.completed, task.user],
-      function (err) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(this.lastID);
-      }
-    );
-  });
-};
-
-// update an existing task
-exports.updateTask = (userID, task) => {
-  return new Promise((resolve, reject) => {
-    const sql =
-      "UPDATE tasks SET description=?, important=?, private=?, deadline=?, completed=? WHERE id =? AND user=?";
-    db.run(
-      sql,
-      [task.description, task.important, task.private, task.deadline, task.completed, task.id, userID],
-      function (err) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(this.lastID);
-      }
-    );
-  });
-};
-
-// delete an existing task
-exports.deleteTask = (userID, taskID) => {
-  return new Promise((resolve, reject) => {
-    const sql = "DELETE FROM tasks WHERE id = ? AND user=?";
-    db.run(sql, [taskID, userID], (err) => {
+    const sql = "INSERT INTO surveys(title, adminId) VALUES(?, ?)";
+    db.run(sql, [survey.title, survey.adminId], function (err) {
       if (err) {
         reject(err);
         return;
-      } else resolve(null);
+      }
+      resolve(this.lastID);
     });
-  });
-};
-
-// marking existing task as completed/uncompleted
-exports.setCompletedTask = (userID, taskID, isCompleted) => {
-  return new Promise((resolve, reject) => {
-    const sql = "UPDATE tasks SET completed=? WHERE id = ? AND user=?";
-    db.run(sql, [isCompleted, taskID, userID], (err) => {
-      if (err) {
-        reject(err);
-        return;
-      } else resolve(null);
+  })
+    .then((sId) => {
+      const options = { surveyId: sId, qId: [] };
+      survey.questions.forEach((q) => {
+        const sql = "INSERT INTO questions(questionText, min, max, surveyId) VALUES(?, ?, ?, ?)";
+        db.run(sql, [q.questionText, q.min, q.max, sId], function (err) {
+          if (err) {
+            reject(err);
+            return;
+          }
+          options.qId.push(this.lastID);
+          if (options.qId.length === survey.questions.length) resolve(options);
+        });
+      });
+    })
+    .then((options) => {
+      let i = 0;
+      survey.questions.forEach((q) => {
+        q.answers.forEach((a) => {
+          const sql_2 = "INSERT INTO answers(answerText, questionId, surveyId) VALUES(?, ?, ?)";
+          db.run(sql_2, [a.answerText, options.qId[i], options.surveyId], function (err) {
+            if (err) {
+              reject(err);
+              return;
+            }
+            i++;
+          });
+        });
+      });
     });
-  });
 };
