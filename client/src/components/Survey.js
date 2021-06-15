@@ -1,4 +1,4 @@
-import { Card, Nav, Button } from "react-bootstrap/";
+import { Col, Row, Button, Form, Card } from "react-bootstrap/";
 import { PencilSquare } from "react-bootstrap-icons";
 import OpenQuestion from "./OpenQuestion";
 import ClosedQuestion from "./ClosedQuestion";
@@ -6,20 +6,39 @@ import "../css/Survey.css";
 
 const questions = [1, 2, 3, 4, 5];
 
-const Survey = (props) => {
+function Survey(props) {
+  const handleInputName = (value) => {
+    //TODO survey.user = value;
+  };
+
   return (
     <>
       <h3 id='title-main' className='my-4 text-center'>
         Survey Title - User
       </h3>
       <div className='survey-page'>
-        {questions.map((n) => (n % 2 === 0 ? <OpenQuestion key={n} /> : <ClosedQuestion key={n} />))}
-        <Button variant='success' className='mb-5 mt-2'>
-          Send
-        </Button>
+        <Form>
+          <Card className='open-question-card'>
+            <Card.Body>
+              <Card.Title className='question-text'>What's your name?</Card.Title>
+              <Form.Group controlId='ControlTextArea-1' className='p-2'>
+                <Form.Control
+                  size='lg'
+                  type='text'
+                  placeholder='John Wick'
+                  onInput={(e) => handleInputName(e.target.value)}
+                />
+              </Form.Group>
+            </Card.Body>
+          </Card>
+          {questions.map((n) => (n % 2 === 0 ? <OpenQuestion key={n} /> : <ClosedQuestion key={n} />))}
+          <Button type='submit' variant='success' className='mb-5 mt-2'>
+            Send
+          </Button>
+        </Form>
       </div>
     </>
   );
-};
+}
 
 export default Survey;
