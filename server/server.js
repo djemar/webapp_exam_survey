@@ -134,7 +134,7 @@ app.get("/api/surveys", (req, res) => {
 // GET /api/admin/surveys
 app.get("/api/admin/surveys", (req, res) => {
   daoSurvey
-    .getSurveyByAdmin(req.user.id)
+    .getSurveysByAdmin(req.user.id)
     .then((surveys) => res.json(surveys))
     .catch(() => res.status(500).end());
 });
@@ -174,3 +174,30 @@ app.post(
       .catch(() => res.status(503).json({ error: `Database error during the creation of survey.` }));
   }
 );
+
+// POST /api/submissions
+app.post("/api/submissions", [check("user").notEmpty()], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  //TODO
+  const id = daoSurvey.getNewSubmissionId();
+
+  const submission = {
+    submissionId: id,
+    user: req.body.user,
+    answerText: req.body.answerText,
+    answerId: req.body.answerId,
+    questionId: req.body.questionId,
+    surveyId: req.body.surveyId,
+  };
+
+  daoSurvey
+    .createSubmission(submission)
+    .then(() => {
+      res.status(201).end();
+    })
+    .catch(() => res.status(503).json({ error: `Database error during the creation of submission.` }));
+});
