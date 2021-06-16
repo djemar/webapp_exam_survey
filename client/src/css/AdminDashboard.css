@@ -1,0 +1,34 @@
+#n-surveys {
+  font-size: 1.25em;
+}
+
+#listgroup-admin-surveys {
+  width: 35%;
+}
+
+.carousel-ic {
+  color: black;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  align-items: center;
+  height: 81.6px;
+}
+
+.carousel-indicators {
+  top: 60px;
+  bottom: unset;
+}
+
+.carousel-indicators li {
+  background-color: darkgray;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+}
+
+.carousel-indicators .active {
+  background-color: #0069d9;
+  scale: 1.5;
+}

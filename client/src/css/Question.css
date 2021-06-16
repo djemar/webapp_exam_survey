@@ -1,0 +1,54 @@
+.closed-question-card,
+.open-question-card {
+  width: 50rem;
+  margin: 1rem;
+  text-align: start;
+  border-radius: 12px;
+}
+
+.question-template-header {
+  padding-top: 1.5rem;
+  text-align: start;
+}
+
+.checkbox-group {
+  margin-left: 3rem;
+  margin-right: 3rem;
+}
+
+.checkbox-group-template,
+.radio-group-template {
+}
+
+.question-text {
+  font-weight: 500;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.custom-control-label {
+  padding-left: 0.75rem;
+}
+
+#btn-add-answer {
+  border-color: gainsboro;
+}
+
+#btn-delete-answer {
+  margin-left: 1rem;
+  color: #d50000;
+}
+#btn-delete-answer:hover {
+  color: #d83e3e;
+  cursor: pointer;
+}
+
+.btn-move-question {
+  background-color: white;
+  border-color: gainsboro;
+}
+
+.card-header,
+.card-footer {
+  font-weight: 500;
+  font-family: "IBM Plex Sans", sans-serif;
+}
