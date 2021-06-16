@@ -1,5 +1,6 @@
 # Exam #1234: "Exam Title"
-## Student: s123456 LASTNAME FIRSTNAME 
+
+## Student: s123456 LASTNAME FIRSTNAME
 
 ## React Client Application Routes
 
@@ -40,5 +41,7 @@
 
 ## Users Credentials
 
-- username, password (plus any other requested info)
-- username, password (plus any other requested info)
+| Username | Password    |
+| :------- | :---------- |
+| johnwick | continental |
+| dantes   | montecristo |
