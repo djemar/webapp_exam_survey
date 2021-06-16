@@ -6,7 +6,7 @@ const morgan = require("morgan"); // logging middleware
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy; // username+psw
 const session = require("express-session");
-const daoAdmin = require("./dao-admin.js");
+const daoAdmin = require("./dao-user.js");
 const daoSurvey = require("./dao-survey.js"); // module for accessing the DB
 const { check, validationResult } = require("express-validator"); // validation middleware
 // init express
