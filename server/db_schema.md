@@ -1,27 +1,27 @@
 ```plantuml
 hide circle
-skinparam defaultFontName Consolas
 skinparam defaultFontSize 16
 
 
 entity Admins{
- * id\t\t: int
+ * adminId\t: int
  * username\t: string
  * password\t: hash
 }
 
 entity Surveys{
-    *id\t\t: int
+    *surveyId\t: int
     *title\t\t: string
     *adminId\t: int
 }
 
 entity Questions{
-    *id\t\t\t: int
+    *questionId\t: int
     *questionText\t: string
     *surveyId\t\t: int
     *min\t\t\t: int
     *max\t\t\t: int
+    *surveyId\t\t: int
 }
 
 note right of Questions
@@ -35,13 +35,13 @@ note right of Questions
 end note
 
 entity Answers{
-    *id\t\t\t: int
+    *answerId\t\t: int
     *answerText\t: string
     *questionId\t: int
 }
 
-entity AnswersUsers{
-    *id\t\t\t: int
+entity Submissions{
+    *submissionId\t: int
     *user\t\t\t: string
     *answerText\t: string[200]
     *answerId\t\t: int
@@ -49,13 +49,13 @@ entity AnswersUsers{
     *surveyId\t\t: int
 }
 
-note right of AnswersUsers
+note right of Submissions
 * answerText : open-ended questions
 * answerId : single/multiple choice questions
 end note
 Questions -- "0,*" Answers
 Surveys -- "1,*" Questions
-Answers -- AnswersUsers
-Questions -- AnswersUsers
+Answers -- Submissions
+Questions -- Submissions
 Admins -- Surveys
 ```
