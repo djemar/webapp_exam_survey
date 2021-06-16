@@ -134,34 +134,41 @@ exports.createSurvey = (survey) => {
       }
       resolve(this.lastID);
     });
-  })
-    .then((sId) => {
-      const options = { surveyId: sId, qId: [] };
-      survey.questions.forEach((q) => {
-        const sql = "INSERT INTO questions(questionText, min, max, surveyId) VALUES(?, ?, ?, ?)";
-        db.run(sql, [q.questionText, q.min, q.max, sId], function (err) {
-          if (err) {
-            reject(err);
-            return;
-          }
-          options.qId.push(this.lastID);
-          if (options.qId.length === survey.questions.length) resolve(options);
-        });
-      });
-    })
-    .then((options) => {
-      let i = 0;
-      survey.questions.forEach((q) => {
-        q.answers.forEach((a) => {
-          const sql_2 = "INSERT INTO answers(answerText, questionId, surveyId) VALUES(?, ?, ?)";
-          db.run(sql_2, [a.answerText, options.qId[i], options.surveyId], function (err) {
+  }).then((sId) => {
+    const promises = [];
+    survey.questions.forEach((q) => {
+      promises.push(
+        new Promise((resolve, reject) => {
+          const sql = "INSERT INTO questions(questionText, min, max, surveyId) VALUES(?, ?, ?, ?)";
+          db.run(sql, [q.questionText, q.min, q.max, sId], function (err) {
             if (err) {
               reject(err);
               return;
             }
-            i++;
+            resolve(this.lastID);
           });
+        })
+      );
+    });
+    Promise.all([...promises]).then((values) => {
+      const promises = [];
+      survey.questions.forEach((q, index) => {
+        q.answers.forEach((a) => {
+          promises.push(
+            new Promise((resolve, reject) => {
+              const sql_2 = "INSERT INTO answers(answerText, questionId, surveyId) VALUES(?, ?, ?)";
+              db.run(sql_2, [a.answerText, values[index], sId], function (err) {
+                if (err) {
+                  reject(err);
+                  return;
+                }
+                resolve(this.lastID);
+              });
+            })
+          );
         });
       });
+      return Promise.all([...promises]);
     });
+  });
 };
