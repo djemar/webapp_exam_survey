@@ -17,6 +17,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [dirty, setDirty] = useState(false);
+  const [surveys, setSurveys] = useState([]);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -65,6 +66,18 @@ function App() {
     setDirty(true);
   };
 
+  useEffect(() => {
+    const getSurveys = async () => {
+      const surveys = await API.getSurveys();
+      setSurveys(surveys);
+    };
+    if (!loggedIn)
+      getSurveys().catch((err) => {
+        setMessage({ msg: `Impossible to load the surveys! Please, try again later...`, type: "danger" });
+        console.error(err);
+      });
+  }, [loggedIn]);
+
   return (
     <Router>
       <Container fluid>
@@ -74,7 +87,7 @@ function App() {
             <Route
               exact
               path='/'
-              render={() => <>{loggedIn ? <Redirect to='/admin/mySurveys' /> : <SurveyList />}</>}
+              render={() => <>{loggedIn ? <Redirect to='/admin/mySurveys' /> : <SurveyList surveys={surveys} />}</>}
             />
             <Switch>
               <Route
@@ -96,6 +109,7 @@ function App() {
                 render={() => <>{loggedIn ? <Redirect to='/admin/mySurveys' /> : <Survey />}</>}
               />
               <Route
+                exact
                 path={["/admin/mySurveys"]}
                 render={() => (
                   <>
@@ -103,7 +117,6 @@ function App() {
                       <AdminDashboard />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
-                        {" "}
                         <Spinner animation='border' variant='primary' />
                       </div>
                     ) : (
@@ -113,6 +126,7 @@ function App() {
                 )}
               />
               <Route
+                exact
                 path={["/admin/create"]}
                 render={() => (
                   <>
@@ -120,7 +134,6 @@ function App() {
                       <SurveyTemplate />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
-                        {" "}
                         <Spinner animation='border' variant='primary' />
                       </div>
                     ) : (
