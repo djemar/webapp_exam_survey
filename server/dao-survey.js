@@ -58,8 +58,8 @@ exports.getSurveyById = (surveyId) => {
         reject(err);
         return;
       }
-      if (rows == undefined) {
-        reject({ error: "QUESTIONS not found." });
+      if (rows == undefined || rows.length === 0) {
+        resolve({ error: "QUESTIONS not found." });
       } else {
         const questions = rows.map((q) => ({
           questionId: q.questionId,
@@ -82,7 +82,7 @@ exports.getSurveyById = (surveyId) => {
         reject(err);
         return;
       }
-      if (rows == undefined) {
+      if (rows == undefined || rows.length === 0) {
         resolve({ error: "ANSWERS not found." });
       } else {
         const answers = rows.map((a) => ({
@@ -99,7 +99,7 @@ exports.getSurveyById = (surveyId) => {
 
   return Promise.all([promiseSurvey, promiseQuestions, promiseAnswers]).then((values) => {
     if (values[0].error || values[1].error || values[2].error) {
-      Promise.resolve({ error: "error" });
+      return Promise.resolve(values.filter((v) => v.error)[0]); //return the only error that should be present
     } else {
       const survey = values[0];
       survey.questions.push(...values[1]);
