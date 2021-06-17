@@ -175,6 +175,14 @@ app.post(
   }
 );
 
+// GET /api/submissions
+app.get("/api/submissions/:id", (req, res) => {
+  daoSurvey
+    .getSubmissionsBySurveyId(req.params.id)
+    .then((submissions) => res.json(submissions))
+    .catch(() => res.status(500).end());
+});
+
 // POST /api/submissions
 app.post("/api/submissions", [check("user").notEmpty()], (req, res) => {
   const errors = validationResult(req);
