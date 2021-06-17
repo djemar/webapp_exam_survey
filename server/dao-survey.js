@@ -233,3 +233,45 @@ exports.createSubmission = (submission) => {
     return Promise.all([...promises]);
   });
 };
+
+// get all submissions by survey ID
+exports.getSubmissionsBySurveyId = (id) => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM submissions WHERE surveyId=?";
+    db.all(sql, [id], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const submissionsList = rows.map((s) => ({
+        submissionId: s.submissionId,
+        user: s.user,
+        answerText: s.answerText,
+        answerId: s.answerId,
+        questionId: s.questionId,
+        surveyId: s.surveyId,
+      }));
+
+      const groupedSubmissions = groupBy(submissionsList, "submissionId");
+      groupedSubmissions.forEach((obj, index) => {
+        const answers = [];
+        obj.forEach((o) => {
+          answers.push({ answerText: o.answerText, answerId: o.answerId, questionId: o.questionId });
+        });
+        groupedSubmissions[index] = { user: obj[0].user, surveyId: obj[0].surveyId, answers: [...answers] };
+      });
+      resolve(groupedSubmissions);
+    });
+  });
+};
+
+function groupBy(arr, prop) {
+  /*The Map instance is created from key/value pairs that are generated from the input array.
+    The keys are the values of the property to group by, and the values are initialised as empty arrays.
+    Then those arrays are populated. Finally the values of the map (i.e. those populated arrays) are returned.*/
+  const map = new Map(Array.from(arr, (obj) => [obj[prop], []]));
+  arr.forEach((obj) => {
+    map.get(obj[prop]).push(obj);
+  });
+  return Array.from(map.values());
+}
