@@ -30,7 +30,7 @@ exports.getAdmin = (username, password) => {
 
 exports.getAdminById = (id) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM admins WHERE id = ?";
+    const sql = "SELECT * FROM admins WHERE adminId = ?";
     db.get(sql, [id], (err, row) => {
       if (err) {
         reject(err);
