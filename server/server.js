@@ -182,15 +182,10 @@ app.post("/api/submissions", [check("user").notEmpty()], (req, res) => {
     return res.status(422).json({ errors: errors.array() });
   }
 
-  //TODO
-  const id = daoSurvey.getNewSubmissionId();
-
   const submission = {
-    submissionId: id,
+    submissionId: -1,
     user: req.body.user,
-    answerText: req.body.answerText,
-    answerId: req.body.answerId,
-    questionId: req.body.questionId,
+    answers: req.body.answers, // [    answerText: , answerId: , questionId: ,]
     surveyId: req.body.surveyId,
   };
 

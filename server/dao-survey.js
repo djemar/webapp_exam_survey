@@ -197,30 +197,39 @@ exports.getNewSubmissionId = () => {
         return;
       }
       if (row == undefined) {
-        resolve({ error: "Unable to get max id." });
+        resolve({ error: "Unable to get new id." });
       } else {
         //TODO
-        //resolve();
+        if (row["MAX(submissionId)"] == null) resolve(1);
+        else resolve(row["MAX(submissionId)"] + 1);
       }
     });
   });
 };
 
 exports.createSubmission = (submission) => {
-  const promises = [];
-  submission.forEach;
-  promises.push(
-    new Promise((resolve, reject) => {
-      const sql = "INSERT INTO submissions VALUES (?,?,?,?,?,?)";
-      db.get(sql, (err, row) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        //TODO
-        //resolve();
-      });
-    })
-  );
-  return Promise.all([...promises]);
+  return this.getNewSubmissionId().then((id) => {
+    const promises = [];
+    submission.submissionId = id;
+    submission.answers.forEach((a) => {
+      promises.push(
+        new Promise((resolve, reject) => {
+          const sql = "INSERT INTO submissions VALUES (?,?,?,?,?,?)";
+          db.run(
+            sql,
+            [submission.submissionId, submission.user, a.answerText, a.answerId, a.questionId, submission.surveyId],
+            (err) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+              //TODO
+              resolve(this.lastId);
+            }
+          );
+        })
+      );
+    });
+    return Promise.all([...promises]);
+  });
 };
