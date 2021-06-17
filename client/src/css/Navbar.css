@@ -6,6 +6,7 @@
   text-decoration: none;
 }
 
+#nav-username,
 #navbar-brand {
   font-family: "IBM Plex Sans", sans-serif;
   font-weight: 500;
