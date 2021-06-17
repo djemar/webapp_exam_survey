@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const questionTemplate = {
   key: uuidv4(),
-  id: 0,
+  pos: 0,
   min: 0,
   max: 0,
   text: "Type your question here",
@@ -23,7 +23,7 @@ function SurveyTemplate(props) {
       ...questions,
       {
         key: uuidv4(),
-        id: questions.length,
+        pos: questions.length,
         min: 0,
         max: 0,
         text: "Type your question here",

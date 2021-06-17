@@ -20,30 +20,30 @@ function QuestionTemplate(props) {
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.OPEN);
   const [answers, setAnswers] = useState([answerTemplate]);
 
-  const handleDeleteQuestion = (id) => {
+  const handleDeleteQuestion = (pos) => {
     let newQuestions = [...questionList];
-    newQuestions = newQuestions.filter((item) => item.id !== id);
+    newQuestions = newQuestions.filter((item) => item.pos !== pos);
     updateId(newQuestions);
     setQuestionList(newQuestions);
   };
 
   const handleSaveQuestion = () => {
     let savedQuestions = [...questionList];
-    savedQuestions[question.id].answers.push(...answers);
-    savedQuestions[question.id].isSaved = true;
+    savedQuestions[question.pos].answers.push(...answers);
+    savedQuestions[question.pos].isSaved = true;
     setQuestionList(savedQuestions);
     console.log(question);
   };
 
   const updateId = (tmpQuestionList) => {
     tmpQuestionList.forEach((q, index) => {
-      q.id = index; //iterate over array and update ids -> necessary if item from the middle of array is removed
+      q.pos = index; //iterate over array and update ids -> necessary if item from the middle of array is removed
     });
   };
 
   const handleMoveUp = () => {
-    const from = question.id;
-    const to = question.id - 1;
+    const from = question.pos;
+    const to = question.pos - 1;
     if (to >= 0) {
       let tmpQuestionList = [...questionList];
       move(tmpQuestionList, from, to);
@@ -52,8 +52,8 @@ function QuestionTemplate(props) {
     }
   };
   const handleMoveDown = () => {
-    const from = question.id;
-    const to = question.id + 1;
+    const from = question.pos;
+    const to = question.pos + 1;
     if (to < questionList.length) {
       let tmpQuestionList = [...questionList];
       move(tmpQuestionList, from, to);
@@ -64,15 +64,15 @@ function QuestionTemplate(props) {
 
   const handleChangeSelection = (e) => {
     let tmpQuestions = [...questionList];
-    tmpQuestions[question.id].answers.length = 0;
+    tmpQuestions[question.pos].answers.length = 0;
     setAnswers([answerTemplate]);
 
     const q = parseInt(e.target.value);
     if (q === QUESTION_TYPE.OPEN) {
-      tmpQuestions[question.id].max = 0;
+      tmpQuestions[question.pos].max = 0;
       setQuestionType(QUESTION_TYPE.OPEN);
     } else if (q === QUESTION_TYPE.SINGLE) {
-      tmpQuestions[question.id].max = 1;
+      tmpQuestions[question.pos].max = 1;
       setQuestionType(QUESTION_TYPE.SINGLE);
     } else if (q === QUESTION_TYPE.MULTIPLE) {
       setQuestionType(QUESTION_TYPE.MULTIPLE);
@@ -84,9 +84,9 @@ function QuestionTemplate(props) {
     let tmpQuestions = [...questionList];
     const mandatory = e.target.checked;
     if (mandatory) {
-      tmpQuestions[question.id].min = 1;
+      tmpQuestions[question.pos].min = 1;
     } else {
-      tmpQuestions[question.id].min = 0;
+      tmpQuestions[question.pos].min = 0;
     }
     setQuestionList(tmpQuestions);
   };
@@ -94,7 +94,7 @@ function QuestionTemplate(props) {
   const handleMaxChange = (e) => {
     let tmpQuestions = [...questionList];
     const max = parseInt(e.target.value);
-    tmpQuestions[question.id].max = max;
+    tmpQuestions[question.pos].max = max;
     setQuestionList(tmpQuestions);
   };
 
@@ -162,7 +162,7 @@ function QuestionTemplate(props) {
             key='overlay-move-up'
             placement='right'
             overlay={<Tooltip id={`tooltip-move-up`}>Move up</Tooltip>}>
-            <Button className='btn-move-question' variant='light' onClick={handleMoveUp} disabled={question.id === 0}>
+            <Button className='btn-move-question' variant='light' onClick={handleMoveUp} disabled={question.pos === 0}>
               <ChevronUp />
             </Button>
           </OverlayTrigger>
@@ -174,17 +174,17 @@ function QuestionTemplate(props) {
               className='btn-move-question'
               variant='light'
               onClick={handleMoveDown}
-              disabled={question.id === questionList.length - 1}>
+              disabled={question.pos === questionList.length - 1}>
               <ChevronDown />
             </Button>
           </OverlayTrigger>
         </ButtonGroup>
-        {question.id > 0 ? (
+        {question.pos > 0 ? (
           <OverlayTrigger
             key='overlay-delete'
             placement='right'
             overlay={<Tooltip id={`tooltip-delete`}>Delete question</Tooltip>}>
-            <Button size='sm' variant='danger' onClick={() => handleDeleteQuestion(question.id)}>
+            <Button size='sm' variant='danger' onClick={() => handleDeleteQuestion(question.pos)}>
               <TrashFill />
             </Button>
           </OverlayTrigger>

@@ -66,6 +66,7 @@ exports.getSurveyById = (surveyId) => {
           questionText: q.questionText,
           min: q.min,
           max: q.max,
+          pos: q.pos,
           surveyId: surveyId,
           answers: [],
         }));
@@ -154,8 +155,8 @@ exports.createSurvey = (survey) => {
     survey.questions.forEach((q) => {
       promises.push(
         new Promise((resolve, reject) => {
-          const sql = "INSERT INTO questions(questionText, min, max, surveyId) VALUES(?, ?, ?, ?)";
-          db.run(sql, [q.questionText, q.min, q.max, sId], function (err) {
+          const sql = "INSERT INTO questions(questionText, min, max, pos, surveyId) VALUES(?, ?, ?, ?, ?)";
+          db.run(sql, [q.questionText, q.min, q.max, q.pos, sId], function (err) {
             if (err) {
               reject(err);
               return;
@@ -199,7 +200,6 @@ exports.getNewSubmissionId = () => {
       if (row == undefined) {
         resolve({ error: "Unable to get new id." });
       } else {
-        //TODO
         if (row["MAX(submissionId)"] == null) resolve(1);
         else resolve(row["MAX(submissionId)"] + 1);
       }
@@ -223,7 +223,6 @@ exports.createSubmission = (submission) => {
                 reject(err);
                 return;
               }
-              //TODO
               resolve(this.lastId);
             }
           );
