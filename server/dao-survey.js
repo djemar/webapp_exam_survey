@@ -29,7 +29,8 @@ exports.getSurveys = () => {
 
 // get survey with a certain {id}
 exports.getSurveyById = (surveyId) => {
-  return new Promise((resolve, reject) => {
+  const promises = [];
+  const promiseSurvey = new Promise((resolve, reject) => {
     const sql = "SELECT * FROM surveys WHERE surveyId=?";
     db.get(sql, [surveyId], (err, row) => {
       if (err) {
@@ -43,60 +44,74 @@ exports.getSurveyById = (surveyId) => {
           surveyId: row.surveyId,
           title: row.title,
           adminIs: row.adminId,
+          questions: [],
         };
         resolve(survey);
       }
     });
-  }).then((survey) => {
-    return new Promise((resolve, reject) => {
-      const sql = "SELECT * FROM questions WHERE surveyId=?";
-      db.all(sql, [survey.surveyId], (err, row) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        if (row == undefined) {
-          resolve({ error: "QUESTIONS not found." });
-        } else {
-          const questions = rows.map((q) => ({
-            questionId: q.questionId,
-            questionText: q.questionText,
-            min: q.min,
-            max: q.max,
-            surveyId: q.surveyId,
-          }));
-          survey.questions.push([...questions]);
-          resolve(survey);
-        }
-      });
-    }).then((survey) => {
-      const sql = "SELECT * FROM answers WHERE surveyId=?";
-      db.all(sql, [survey.surveyId], (err, row) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-        if (row == undefined) {
-          resolve({ error: "ANSWERS not found." });
-        } else {
-          const answers = rows.map((a) => ({
-            answerId: a.answerId,
-            answerText: a.answerText,
-            questionId: a.questionId,
-            surveyId: a.surveyId,
-          }));
+  });
 
-          answers.forEach((a) => {
-            survey.questions.forEach((q) => {
-              if (q.questionId === a.questionId) {
-                q.answers.push(a);
-              }
-            });
-          });
-          resolve(survey);
-        }
-      });
+  const promiseQuestions = new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM questions WHERE surveyId=?";
+    db.all(sql, [surveyId], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (rows == undefined) {
+        reject({ error: "QUESTIONS not found." });
+      } else {
+        const questions = rows.map((q) => ({
+          questionId: q.questionId,
+          questionText: q.questionText,
+          min: q.min,
+          max: q.max,
+          surveyId: surveyId,
+          answers: [],
+        }));
+
+        resolve(questions);
+      }
     });
+  });
+
+  const promiseAnswers = new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM answers WHERE surveyId=?";
+    db.all(sql, [surveyId], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (rows == undefined) {
+        resolve({ error: "ANSWERS not found." });
+      } else {
+        const answers = rows.map((a) => ({
+          answerId: a.answerId,
+          answerText: a.answerText,
+          questionId: a.questionId,
+          surveyId: a.surveyId,
+        }));
+
+        resolve(answers);
+      }
+    });
+  });
+
+  return Promise.all([promiseSurvey, promiseQuestions, promiseAnswers]).then((values) => {
+    if (values[0].error || values[1].error || values[2].error) {
+      Promise.resolve({ error: "error" });
+    } else {
+      const survey = values[0];
+      survey.questions.push(...values[1]);
+      values[2].forEach((a) => {
+        survey.questions.forEach((q) => {
+          if (q.questionId === a.questionId) {
+            q.answers.push(a);
+          }
+        });
+      });
+      return Promise.resolve(survey);
+    }
   });
 };
 
