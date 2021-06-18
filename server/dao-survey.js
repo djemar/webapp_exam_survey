@@ -141,6 +141,7 @@ exports.getSurveysByAdmin = (adminId) => {
 
 // add a new survey
 exports.createSurvey = (survey) => {
+  //TODO rollback
   return new Promise((resolve, reject) => {
     const sql = "INSERT INTO surveys(title, adminId) VALUES(?, ?)";
     db.run(sql, [survey.title, survey.adminId], function (err) {
