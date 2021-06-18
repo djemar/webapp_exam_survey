@@ -67,9 +67,9 @@ function SurveyTemplate(props) {
       <div className='survey-page'>
         <div className='mx-5'>
           <Form id='form-new-survey' noValidate validated={validated} onSubmit={handleSubmit}>
-            <Card className='open-question-card'>
+            <Card className='title-card'>
               <Card.Body>
-                <Card.Title className='question-text mandatory'>Insert the title of the survey</Card.Title>
+                <Card.Title className='title-text mandatory'>Insert the title of the survey</Card.Title>
                 <Form.Group controlId='ControlTextArea-1' className='p-2'>
                   <Form.Control
                     size='lg'

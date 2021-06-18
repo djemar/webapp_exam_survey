@@ -3,16 +3,26 @@
   width: 50rem;
   margin: 1rem;
   text-align: start;
-  border-left-width: 5px;
-  border-left-color: royalblue;
+}
+
+.title-card {
+  width: 837px;
+  text-align: start;
+  border-top-width: 10px;
+  border-top-color: #1976d2;
   border-radius: 12px;
 }
 
 .question-card {
   border-radius: 12px;
-  box-shadow: 0 1px 2px 0 #666;
+  box-shadow: 0 2px 5px rgba(102, 102, 102, 0.45);
   border-left-width: 5px;
-  border-left-color: royalblue;
+  border-left-color: transparent;
+}
+
+.question-card:focus-within {
+  border-left-width: 5px;
+  border-left-color: #1976d2;
 }
 
 .question-template-header {
@@ -43,6 +53,7 @@
 }
 
 #btn-delete-answer {
+  box-shadow: 0 2px 5px rgba(102, 102, 102, 0.45);
   margin-left: 1rem;
   color: #d50000;
 }
@@ -53,7 +64,7 @@
 
 .btn-move-question {
   background-color: white;
-  box-shadow: 0 1px 2px 0 #666;
+  box-shadow: 0 2px 5px rgba(102, 102, 102, 0.45);
 }
 
 .card-header,
