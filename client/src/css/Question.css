@@ -20,7 +20,8 @@
   border-left-color: transparent;
 }
 
-.question-card:focus-within {
+.question-card:focus-within,
+.question-card:focus {
   border-left-width: 5px;
   border-left-color: #1976d2;
 }
@@ -53,7 +54,6 @@
 }
 
 #btn-delete-answer {
-  box-shadow: 0 2px 5px rgba(102, 102, 102, 0.45);
   margin-left: 1rem;
   color: #d50000;
 }
