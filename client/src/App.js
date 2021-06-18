@@ -76,15 +76,14 @@ function App() {
         setMessage({ msg: `Impossible to load the surveys! Please, try again later...`, type: "danger" });
         console.error(err);
       });
-  }, );
-
+  }, []);
 
   const publishSurvey = (survey) => {
-//    setSurveys((surveys) => [...surveys, survey]);
+    //    setSurveys((surveys) => [...surveys, survey]);
     const createSurvey = async () => {
       API.addSurvey(survey)
         .then(() => {
-         // setDirty(true);
+          // setDirty(true);
           setMessage({ msg: `Survey published with success!`, type: "success" });
         })
         .catch((err) => handleErrors(err));
