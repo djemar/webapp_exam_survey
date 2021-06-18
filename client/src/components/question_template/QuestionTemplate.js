@@ -208,7 +208,7 @@ function QuestionTemplate(props) {
             </Button>
           </OverlayTrigger>
         </ButtonGroup>
-        {question.pos > 0 ? (
+        {questionList.length > 1 ? (
           <OverlayTrigger
             key='overlay-delete'
             placement='right'
