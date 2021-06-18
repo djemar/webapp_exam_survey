@@ -1,6 +1,7 @@
 .survey-page {
   height: calc(100% - 81.3px);
-  background-color: #f7f4f4;
+  /* background-color: #f7f4f4; */
+  background-color: #fafafa; 
   padding: 16px;
   display: flex;
   flex-direction: column;
