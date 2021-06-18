@@ -8,7 +8,7 @@
   border-radius: 12px;
 }
 
-.question-card{
+.question-card {
   border-radius: 12px;
   box-shadow: 0 1px 2px 0 #666;
   border-left-width: 5px;
@@ -54,7 +54,6 @@
 .btn-move-question {
   background-color: white;
   box-shadow: 0 1px 2px 0 #666;
-
 }
 
 .card-header,
@@ -62,4 +61,53 @@
   font-weight: 500;
   font-family: "IBM Plex Sans", sans-serif;
   background-color: white;
+}
+
+.custom-select.is-valid,
+.was-validated .form-control:valid,
+.was-validated .form-control:valid:focus,
+.custom-control-input.is-valid:checked,
+.custom-control-input.is-valid {
+  border-color: #adb5bd;
+  box-shadow: unset;
+  background-image: none;
+}
+
+.form-control.is-valid,
+.was-validated .form-control:valid {
+  border-color: #adb5bd !important;
+  padding-right: 12px;
+}
+
+.custom-control-input.is-valid ~ .custom-control-label::before,
+.was-validated .custom-control-input:valid ~ .custom-control-label,
+.was-validated .custom-control-input:valid ~ .custom-control-label::before {
+  color: unset;
+  border-color: #adb5bd;
+}
+
+.custom-control-input.is-valid ~ .custom-control-label::before,
+.was-validated .custom-control-input:valid ~ .custom-control-label::before {
+  border-color: #adb5bd !important;
+}
+
+.was-validated .custom-control-input:valid:checked ~ .custom-control-label::before {
+  background-color: #007bff;
+  border-color: #007bff;
+  box-shadow: unset;
+}
+
+.was-validated .custom-control-input:valid:focus ~ .custom-control-label::before {
+  border-color: #adb5bd;
+  box-shadow: unset;
+}
+
+.form-control:disabled,
+.form-control:disabled:focus,
+.form-control[readonly] {
+  background-color: white;
+  box-shadow: unset;
+  border-color: #ced4da;
+  cursor: default;
+  color: black;
 }
