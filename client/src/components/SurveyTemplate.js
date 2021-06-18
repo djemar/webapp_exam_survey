@@ -45,7 +45,7 @@ function SurveyTemplate(props) {
     if (form.checkValidity() === true) {
       const survey = {
         title: title,
-        adminId: user.adminId,
+        adminId: user.id,
         questions: [...questions],
       };
       publishSurvey(survey);

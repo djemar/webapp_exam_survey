@@ -156,7 +156,7 @@ exports.createSurvey = (survey) => {
       promises.push(
         new Promise((resolve, reject) => {
           const sql = "INSERT INTO questions(questionText, min, max, pos, surveyId) VALUES(?, ?, ?, ?, ?)";
-          db.run(sql, [q.questionText, q.min, q.max, q.pos, sId], function (err) {
+          db.run(sql, [q.text, q.min, q.max, q.pos, sId], function (err) {
             if (err) {
               reject(err);
               return;
@@ -173,7 +173,7 @@ exports.createSurvey = (survey) => {
           promises.push(
             new Promise((resolve, reject) => {
               const sql_2 = "INSERT INTO answers(answerText, questionId, surveyId) VALUES(?, ?, ?)";
-              db.run(sql_2, [a.answerText, values[index], sId], function (err) {
+              db.run(sql_2, [a.text, values[index], sId], function (err) {
                 if (err) {
                   reject(err);
                   return;
@@ -217,7 +217,7 @@ exports.createSubmission = (submission) => {
           const sql = "INSERT INTO submissions VALUES (?,?,?,?,?,?)";
           db.run(
             sql,
-            [submission.submissionId, submission.user, a.answerText, a.answerId, a.questionId, submission.surveyId],
+            [submission.submissionId, submission.user, a.text, a.answerId, a.questionId, submission.surveyId],
             (err) => {
               if (err) {
                 reject(err);

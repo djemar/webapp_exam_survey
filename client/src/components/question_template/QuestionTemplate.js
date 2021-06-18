@@ -29,13 +29,15 @@ function QuestionTemplate(props) {
 
   const checkAnswers = () => {
     let valid = true;
-    answers.forEach((a) => {
-      //check for empty
-      if (a.text.length < 1) valid = false;
-    });
-    if (question.max > 1 && question.max !== answers.length) {
-      //check if there are enough answers if max > 1
-      valid = false;
+    if (question.max != 0) {
+      answers.forEach((a) => {
+        //check for empty
+        if (a.text.length < 1) valid = false;
+      });
+      if (question.max > 1 && question.max > answers.length) {
+        //check if there are enough answers if max > 1
+        valid = false;
+      }
     }
     return valid;
   };
