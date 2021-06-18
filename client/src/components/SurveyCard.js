@@ -4,11 +4,11 @@ import "../css/SurveyCard.css";
 import { Link } from "react-router-dom";
 
 const SurveyCard = (props) => {
+  const { survey } = props;
   return (
     <Card className='survey-card'>
       <Card.Body>
-        <Card.Title id='survey-title'>Survey Title Incredible Amazing</Card.Title>
-        <Card.Text>by Diego Marino</Card.Text>
+        <Card.Title id='survey-title'>{survey.title}</Card.Title>
         <Link to='/survey/id'>
           <Button id='btn-survey-card' variant='outline'>
             Take survey

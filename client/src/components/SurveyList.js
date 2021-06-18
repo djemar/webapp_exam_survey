@@ -8,7 +8,7 @@ function SurveyList(props) {
         Available surveys
       </h3>
       {surveys.map((s) => (
-        <SurveyCard key={s.surveyId} />
+        <SurveyCard key={s.surveyId} survey={s} />
       ))}
     </>
   );
