@@ -48,38 +48,34 @@ function SurveyTemplate(props) {
         adminId: user.adminId,
         questions: [...questions],
       };
-      // publishSurvey(survey);
-    } 
-      setValidated(true);
-    
+      publishSurvey(survey);
+    }
+    setValidated(true);
   };
 
   const handleInputTitle = (value) => {
     setTitle(value);
   };
 
-  const ConditionalWrapper = ({ condition, wrapper, children }) =>
-    condition ? wrapper(children) : children; //enable tooltip only if button is disabled
+  const ConditionalWrapper = ({ condition, wrapper, children }) => (condition ? wrapper(children) : children); //enable tooltip only if button is disabled
 
   return (
     <>
-      <h3 id="title-main" className="my-4 text-center">
+      <h3 id='title-main' className='my-4 text-center'>
         Create Survey
       </h3>
-      <div className="survey-page">
-        <div className="mx-5">
-          <Form id="form-new-survey" noValidate validated={validated} onSubmit={handleSubmit}>
-            <Card className="open-question-card">
+      <div className='survey-page'>
+        <div className='mx-5'>
+          <Form id='form-new-survey' noValidate validated={validated} onSubmit={handleSubmit}>
+            <Card className='open-question-card'>
               <Card.Body>
-                <Card.Title className="question-text mandatory">
-                  Insert the title of the survey
-                </Card.Title>
-                <Form.Group controlId="ControlTextArea-1" className="p-2">
+                <Card.Title className='question-text mandatory'>Insert the title of the survey</Card.Title>
+                <Form.Group controlId='ControlTextArea-1' className='p-2'>
                   <Form.Control
-                    size="lg"
-                    type="text"
+                    size='lg'
+                    type='text'
                     required
-                    placeholder="Never gonna give you up"
+                    placeholder='Never gonna give you up'
                     onInput={(e) => handleInputTitle(e.target.value)}
                   />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -99,26 +95,17 @@ function SurveyTemplate(props) {
               condition={!questions[questions.length - 1].isSaved}
               wrapper={(children) => (
                 <OverlayTrigger
-                  overlay={
-                    <Tooltip id="tooltip-disabled">
-                      Save the last question before adding a new one!
-                    </Tooltip>
-                  }
-                >
+                  overlay={<Tooltip id='tooltip-disabled'>Save the last question before adding a new one!</Tooltip>}>
                   {children}
                 </OverlayTrigger>
-              )}
-            >
+              )}>
               <span>
                 <Button
-                  variant="primary"
+                  variant='primary'
                   block
-                  className="mb-5 mt-5"
+                  className='mb-5 mt-5'
                   onClick={handleAddQuestion}
-                  disabled={
-                    questions[questions.length - 1].isSaved ? false : true
-                  }
-                >
+                  disabled={questions[questions.length - 1].isSaved ? false : true}>
                   Add a question
                 </Button>
               </span>
@@ -128,25 +115,18 @@ function SurveyTemplate(props) {
               wrapper={(children) => (
                 <OverlayTrigger
                   overlay={
-                    <Tooltip id="tooltip-disabled">
-                      Save the last question before publishing the survey!
-                    </Tooltip>
-                  }
-                >
+                    <Tooltip id='tooltip-disabled'>Save the last question before publishing the survey!</Tooltip>
+                  }>
                   {children}
                 </OverlayTrigger>
-              )}
-            >
+              )}>
               <span>
                 <Button
-                  variant="success"
+                  variant='success'
                   block
-                  className="mb-5 mt-5"
-                  type="submit"
-                  disabled={
-                    questions[questions.length - 1].isSaved ? false : true
-                  }
-                >
+                  className='mb-5 mt-5'
+                  type='submit'
+                  disabled={questions[questions.length - 1].isSaved ? false : true}>
                   Publish Survey
                 </Button>
               </span>
