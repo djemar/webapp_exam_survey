@@ -76,7 +76,21 @@ function App() {
         setMessage({ msg: `Impossible to load the surveys! Please, try again later...`, type: "danger" });
         console.error(err);
       });
-  }, [loggedIn]);
+  }, );
+
+
+  const publishSurvey = (survey) => {
+//    setSurveys((surveys) => [...surveys, survey]);
+    const createSurvey = async () => {
+      API.addSurvey(survey)
+        .then(() => {
+         // setDirty(true);
+          setMessage({ msg: `Survey published with success!`, type: "success" });
+        })
+        .catch((err) => handleErrors(err));
+    };
+    createSurvey();
+  };
 
   return (
     <Router>
@@ -114,7 +128,7 @@ function App() {
                 render={() => (
                   <>
                     {loggedIn ? (
-                      <AdminDashboard />
+                      <AdminDashboard publishSurvey={publishSurvey} />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
                         <Spinner animation='border' variant='primary' />
@@ -131,7 +145,7 @@ function App() {
                 render={() => (
                   <>
                     {loggedIn ? (
-                      <SurveyTemplate />
+                      <SurveyTemplate publishSurvey={publishSurvey} user={user} />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
                         <Spinner animation='border' variant='primary' />

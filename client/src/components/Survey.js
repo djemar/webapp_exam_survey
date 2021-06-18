@@ -8,7 +8,7 @@ const questions = [1, 2, 3, 4, 5];
 
 function Survey(props) {
   const handleInputName = (value) => {
-    //TODO survey.user = value;
+    //TODO submission.user = value;
   };
 
   return (
