@@ -28,19 +28,21 @@ function ClosedQuestion(props) {
         {question.max > 1 ? <h6 className='pb-1 font-italic'>Choose up to {question.max} answers:</h6> : ""}
         <fieldset>
           <Form.Group className='checkbox-group' controlId={`ControlTextArea-${question.questionId}`}>
-            {question.answers.map((a) => (
-              <Form.Check
-                key={`custom-${a.answerId}`}
-                custom
-                disabled={question.max > 1 && checked.length >= question.max && !checked.includes(a.answerId)}
-                onChange={(e) => handleCheck(e, a.answerId)}
-                name='form-check'
-                type={question.max > 1 ? `checkbox` : `radio`}
-                id={`custom-${a.answerId}`}
-                className='p-3'
-                label={`${a.answerText}`}
-              />
-            ))}
+            {question.answers
+              .sort((a, b) => a.pos - b.pos)
+              .map((a) => (
+                <Form.Check
+                  key={`custom-${a.answerId}`}
+                  custom
+                  disabled={question.max > 1 && checked.length >= question.max && !checked.includes(a.answerId)}
+                  onChange={(e) => handleCheck(e, a.answerId)}
+                  name='form-check'
+                  type={question.max > 1 ? `checkbox` : `radio`}
+                  id={`custom-${a.answerId}`}
+                  className='p-3'
+                  label={`${a.answerText}`}
+                />
+              ))}
           </Form.Group>
         </fieldset>
       </Card.Body>

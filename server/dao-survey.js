@@ -88,6 +88,7 @@ exports.getSurveyById = (surveyId) => {
       } else {
         const answers = rows.map((a) => ({
           answerId: a.answerId,
+          pos: a.pos,
           answerText: a.answerText,
           questionId: a.questionId,
           surveyId: a.surveyId,
@@ -173,8 +174,8 @@ exports.createSurvey = (survey) => {
         q.answers.forEach((a) => {
           promises.push(
             new Promise((resolve, reject) => {
-              const sql_2 = "INSERT INTO answers(answerText, questionId, surveyId) VALUES(?, ?, ?)";
-              db.run(sql_2, [a.text, values[index], sId], function (err) {
+              const sql_2 = "INSERT INTO answers(pos, answerText, questionId, surveyId) VALUES(?, ?, ?)";
+              db.run(sql_2, [a.id, a.text, values[index], sId], function (err) {
                 if (err) {
                   reject(err);
                   return;

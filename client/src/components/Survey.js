@@ -60,13 +60,15 @@ function Survey(props) {
                   </Form.Group>
                 </Card.Body>
               </Card>
-              {survey.questions.map((q) =>
-                q.max === 0 ? (
-                  <OpenQuestion key={q.questionId} question={q} />
-                ) : (
-                  <ClosedQuestion key={q.questionId} question={q} />
-                )
-              )}
+              {survey.questions
+                .sort((a, b) => a.pos - b.pos)
+                .map((q) =>
+                  q.max === 0 ? (
+                    <OpenQuestion key={q.questionId} question={q} />
+                  ) : (
+                    <ClosedQuestion key={q.questionId} question={q} />
+                  )
+                )}
               <h6 className='text-right mx-4'>
                 Questions marked with a <span className='mandatory' /> are mandatory{" "}
               </h6>
