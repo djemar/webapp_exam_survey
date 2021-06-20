@@ -7,19 +7,23 @@ import Survey from "./Survey";
 
 const surveys = [1, 2, 3, 4, 5];
 function AdminDashboard(props) {
+  const { surveys } = props;
+
+  const handleClick = () => {};
+
   return (
     <>
       <h3 id='title-main' className='my-4 text-center text-uppercase'>
         Your surveys
       </h3>
       <Row className='h-max-content'>
-        <ListGroup as={Col} id='listgroup-admin-surveys' className='pl-3 pr-0 ' defaultActiveKey='#1'>
+        <ListGroup as={Col} id='listgroup-admin-surveys' className='pl-3 pr-0 '>
           {surveys.map((s) => (
             <ListGroup.Item
               id='dashboard-list'
               action
-              key={s}
-              href={`#${s}`}
+              key={s.surveyId}
+              onClick={handleClick}
               className='py-3 m-0 d-flex justify-content-between align-items-center'>
               Title of your survey
               <div id='n-surveys' className='d-flex flex-row font-weight-bold align-items-center'>
@@ -43,9 +47,10 @@ function AdminDashboard(props) {
                 <ChevronLeft size={30} className='carousel-ic' />
               </span>
             }>
+            {/*TODO map submissions */}
             {surveys.map((s) => (
-              <Carousel.Item key={s}>
-                <Survey />
+              <Carousel.Item key={s.surveyId}>
+                <Survey readOnly={true} sId={s.surveyId} />
               </Carousel.Item>
             ))}
           </Carousel>

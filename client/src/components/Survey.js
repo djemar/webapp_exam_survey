@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import API from "../API";
 
 function Survey(props) {
-  const { setMessage } = props;
+  const { setMessage, readOnly, sId } = props;
   const params = useParams();
   const [submissionUser, setSubmissionUser] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -24,10 +24,16 @@ function Survey(props) {
       setSurvey(survey);
       setIsLoading(false);
     };
-    getSurveyById(params.id).catch((err) => {
-      setMessage({ msg: `Impossible to load the survey! Please, try again later...`, type: "danger" });
-      console.error(err);
-    });
+    if (params.id)
+      getSurveyById(params.id).catch((err) => {
+        setMessage({ msg: `Impossible to load the survey! Please, try again later...`, type: "danger" });
+        console.error(err);
+      });
+    else
+      getSurveyById(sId).catch((err) => {
+        //setMessage({ msg: `Impossible to load the survey! Please, try again later...`, type: "danger" });
+        console.error(err);
+      });
   }, []);
 
   return (

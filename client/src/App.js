@@ -140,7 +140,7 @@ function App() {
                 render={() => (
                   <>
                     {loggedIn ? (
-                      <AdminDashboard publishSurvey={publishSurvey} />
+                      <AdminDashboard publishSurvey={publishSurvey} surveys={surveys} />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
                         <Spinner animation='border' variant='primary' />
