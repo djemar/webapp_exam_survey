@@ -23,7 +23,7 @@ function ClosedQuestion(props) {
     <Card className='closed-question-card'>
       <Card.Body>
         <Card.Title className={`question-text ${question.min === 1 ? `mandatory` : ``}`}>
-          Who wants to live forever?
+          {question.questionText}
         </Card.Title>
         {question.max > 1 ? <h6 className='pb-1 font-italic'>Choose up to {question.max} answers:</h6> : ""}
         <fieldset>
