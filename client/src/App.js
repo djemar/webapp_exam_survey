@@ -93,7 +93,7 @@ function App() {
 
   return (
     <Router>
-      <Container fluid>
+      <Container fluid className='h-100'>
         <MyNavbar loggedIn={loggedIn} logout={doLogout} user={user} />
         <Row className='vh-100 below-nav'>
           <Col className='text-center'>

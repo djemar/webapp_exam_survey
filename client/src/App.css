@@ -1,10 +1,16 @@
 /* Global */
+body,
+html,
+#root {
+  height: 100%;
+}
 .vheight-100 {
-  min-height: calc(100% - 58.3px);
+  min-height: calc(100% - 66.3px);
 }
 
 .below-nav {
-  padding-top: 58.3px;
+  padding-top: 66.3px;
+  background-color: #f5f5f5;
 }
 
 #title-main {
