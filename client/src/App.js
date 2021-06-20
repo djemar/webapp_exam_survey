@@ -29,7 +29,7 @@ function App() {
         setLoading(false);
       } catch (err) {
         console.error(err.error);
-        setLoading(false);
+        //setLoading(false);
       }
     };
     checkAuth();
@@ -70,6 +70,7 @@ function App() {
     const getSurveys = async () => {
       const surveys = await API.getSurveys();
       setSurveys(surveys);
+      setLoading(false);
     };
     if (!loggedIn)
       getSurveys().catch((err) => {
@@ -119,7 +120,19 @@ function App() {
               <Route
                 exact
                 path={["/survey/:id"]}
-                render={() => <>{loggedIn ? <Redirect to='/admin/mySurveys' /> : <Survey />}</>}
+                render={() => (
+                  <>
+                    {loggedIn ? (
+                      <Redirect to='/admin/mySurveys' />
+                    ) : loading ? (
+                      <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
+                        <Spinner animation='border' variant='primary' />
+                      </div>
+                    ) : (
+                      <Survey setMessage={setMessage} />
+                    )}
+                  </>
+                )}
               />
               <Route
                 exact
