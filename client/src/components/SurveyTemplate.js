@@ -38,7 +38,6 @@ function SurveyTemplate(props) {
   };
 
   const handleSubmit = (event) => {
-    //TODO validate
     const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();

@@ -38,6 +38,7 @@ function Survey(props) {
           <h6 className='text-right mx-4'>
             Questions marked with a <span className='mandatory' /> are mandatory{" "}
           </h6>
+          {/*TODO hide button if admin*/}
           <Button type='submit' variant='success' className='mb-5 mt-2'>
             Send
           </Button>
