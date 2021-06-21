@@ -24,7 +24,7 @@ function Survey(props) {
       setSurvey(survey);
       setIsLoading(false);
     };
-    if (params.id)
+    if (!readOnly)
       getSurveyById(params.id).catch((err) => {
         setMessage({ msg: `Impossible to load the survey! Please, try again later...`, type: "danger" });
         console.error(err);
@@ -49,39 +49,41 @@ function Survey(props) {
           </h3>
           <div className='survey-page'>
             <Form noValidate>
-              <h6 className='text-right mx-4'>
-                Questions marked with a <span className='mandatory' /> are mandatory
-              </h6>
-              <Card className='open-question-card'>
-                <Card.Body>
-                  <Card.Title className='question-text mandatory'>What's your name?</Card.Title>
-                  <Form.Group controlId='ControlTextArea-1' className='p-2'>
-                    <Form.Control
-                      required
-                      size='lg'
-                      type='text'
-                      placeholder='John Wick'
-                      onInput={(e) => handleInputName(e.target.value)}
-                    />
-                  </Form.Group>
-                </Card.Body>
-              </Card>
-              {survey.questions
-                .sort((a, b) => a.pos - b.pos)
-                .map((q) =>
-                  q.max === 0 ? (
-                    <OpenQuestion key={q.questionId} question={q} />
-                  ) : (
-                    <ClosedQuestion key={q.questionId} question={q} />
-                  )
-                )}
-              <h6 className='text-right mx-4'>
-                Questions marked with a <span className='mandatory' /> are mandatory{" "}
-              </h6>
-              {/*TODO hide button if admin*/}
-              <Button type='submit' variant='success' className='mb-5 mt-2'>
-                Send
-              </Button>
+              <fieldset disabled={readOnly}>
+                <h6 className='text-right mx-4'>
+                  Questions marked with a <span className='mandatory' /> are mandatory
+                </h6>
+                <Card className='open-question-card'>
+                  <Card.Body>
+                    <Card.Title className='question-text mandatory'>What's your name?</Card.Title>
+                    <Form.Group controlId='ControlTextArea-1' className='p-2'>
+                      <Form.Control
+                        required
+                        size='lg'
+                        type='text'
+                        placeholder='John Wick'
+                        onInput={(e) => handleInputName(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Card.Body>
+                </Card>
+                {survey.questions
+                  .sort((a, b) => a.pos - b.pos)
+                  .map((q) =>
+                    q.max === 0 ? (
+                      <OpenQuestion key={q.questionId} question={q} />
+                    ) : (
+                      <ClosedQuestion key={q.questionId} question={q} />
+                    )
+                  )}
+                <h6 className='text-right mx-4'>
+                  Questions marked with a <span className='mandatory' /> are mandatory{" "}
+                </h6>
+                {/*TODO hide button if admin*/}
+                <Button type='submit' variant='success' className='mb-5 mt-2'>
+                  Send
+                </Button>
+              </fieldset>
             </Form>
           </div>
         </>
