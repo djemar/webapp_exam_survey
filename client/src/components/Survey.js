@@ -2,12 +2,12 @@ import { Spinner, Button, Form, Card } from "react-bootstrap/";
 import OpenQuestion from "./OpenQuestion";
 import ClosedQuestion from "./ClosedQuestion";
 import "../css/Survey.css";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../API";
 
 function Survey(props) {
-  const { setMessage, readOnly, sId } = props;
+  const { setMessage, readOnly, sId, setDirty, handleErrors } = props;
   const params = useParams();
   const [submissionUser, setSubmissionUser] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -15,18 +15,25 @@ function Survey(props) {
   const [validated, setValidated] = useState(false);
   const [submission, setSubmission] = useState({});
   const [subAnswers, setSubAnswers] = useState([]);
+  const history = useHistory();
 
   const handleInputName = (value) => {
     setSubmissionUser(value);
   };
 
-  const prepareSubmission = (s) => {
-    let tmp = [];
-    s.questions.forEach((q) => {
-      tmp = [...tmp, { text: "", answerId: -1, questionId: q.questionId }];
-    });
-    //setSubAnswers(tmp);
-    setSubmission({ submissionId: 0, user: "", answers: [], surveyId: s.surveyId });
+  const submitSurvey = (sub) => {
+    //    setSurveys((surveys) => [...surveys, survey]);
+    const createSubmission = async () => {
+      API.addSubmission(sub)
+        .then(() => {
+          setDirty(true);
+          //TODO redirect to dashboard
+          history.push("/");
+          //setMessage({ msg: `Survey published with success!`, type: "success" });
+        })
+        .catch((err) => handleErrors(err));
+    };
+    createSubmission();
   };
 
   const handleSubmit = (e) => {
@@ -35,13 +42,14 @@ function Survey(props) {
     e.stopPropagation();
     setValidated(true);
     //a.text, a.answerId, a.questionId,
-    setSubmission({ ...submission, user: submissionUser, answers: [...subAnswers] });
+    const sub = { ...submission, user: submissionUser, answers: [...subAnswers] };
+    submitSurvey(sub);
   };
 
   useEffect(() => {
     const getSurveyById = async (id) => {
       const survey = await API.getSurveyById(id);
-      prepareSubmission(survey);
+      setSubmission({ submissionId: 0, user: "", answers: [], surveyId: survey.surveyId });
       setSurvey(survey);
       setIsLoading(false);
     };

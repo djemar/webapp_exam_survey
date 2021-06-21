@@ -116,7 +116,12 @@ function App() {
                         <Spinner animation='border' variant='primary' />
                       </div>
                     ) : (
-                      <Survey readOnly={false} setMessage={setMessage} />
+                      <Survey
+                        readOnly={false}
+                        handleErrors={handleErrors}
+                        setDirty={setDirty}
+                        setMessage={setMessage}
+                      />
                     )}
                   </>
                 )}
