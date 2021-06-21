@@ -1,7 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { React, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from "react-router-dom";
 import { Container, Row, Col, Spinner } from "react-bootstrap/";
 import MyNavbar from "./components/Navbar";
 import Survey from "./components/Survey";
@@ -71,26 +71,13 @@ function App() {
       const surveys = await API.getSurveys();
       setSurveys(surveys);
       setLoading(false);
+      setDirty(false);
     };
-    if (!loggedIn)
-      getSurveys().catch((err) => {
-        setMessage({ msg: `Impossible to load the surveys! Please, try again later...`, type: "danger" });
-        console.error(err);
-      });
-  }, []);
-
-  const publishSurvey = (survey) => {
-    //    setSurveys((surveys) => [...surveys, survey]);
-    const createSurvey = async () => {
-      API.addSurvey(survey)
-        .then(() => {
-          // setDirty(true);
-          setMessage({ msg: `Survey published with success!`, type: "success" });
-        })
-        .catch((err) => handleErrors(err));
-    };
-    createSurvey();
-  };
+    getSurveys().catch((err) => {
+      setMessage({ msg: `Impossible to load the surveys! Please, try again later...`, type: "danger" });
+      console.error(err);
+    });
+  }, [dirty, surveys.length]);
 
   return (
     <Router>
@@ -129,7 +116,7 @@ function App() {
                         <Spinner animation='border' variant='primary' />
                       </div>
                     ) : (
-                      <Survey setMessage={setMessage} />
+                      <Survey readOnly={false} setMessage={setMessage} />
                     )}
                   </>
                 )}
@@ -140,7 +127,7 @@ function App() {
                 render={() => (
                   <>
                     {loggedIn ? (
-                      <AdminDashboard publishSurvey={publishSurvey} surveys={surveys} />
+                      <AdminDashboard surveys={surveys} setMessage={setMessage} />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
                         <Spinner animation='border' variant='primary' />
@@ -157,7 +144,7 @@ function App() {
                 render={() => (
                   <>
                     {loggedIn ? (
-                      <SurveyTemplate publishSurvey={publishSurvey} user={user} />
+                      <SurveyTemplate handleErrors={handleErrors} user={user} setDirty={setDirty} />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
                         <Spinner animation='border' variant='primary' />

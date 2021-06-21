@@ -4,6 +4,8 @@ import "../css/Survey.css";
 import QuestionTemplate from "./question_template/QuestionTemplate";
 import { useReducer, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import API from "../API";
+import { useHistory } from "react-router-dom";
 
 const questionTemplate = {
   key: uuidv4(),
@@ -16,10 +18,26 @@ const questionTemplate = {
 };
 
 function SurveyTemplate(props) {
-  const { publishSurvey, user } = props;
+  const { handleErrors, user, setDirty } = props;
   const [questions, setQuestions] = useState([questionTemplate]);
   const [title, setTitle] = useState("");
   const [validated, setValidated] = useState(false);
+  const history = useHistory();
+
+  const publishSurvey = (survey) => {
+    //    setSurveys((surveys) => [...surveys, survey]);
+    const createSurvey = async () => {
+      API.addSurvey(survey)
+        .then(() => {
+          setDirty(true);
+          //TODO redirect to dashboard
+          history.push("/admin/mySurveys");
+          //setMessage({ msg: `Survey published with success!`, type: "success" });
+        })
+        .catch((err) => handleErrors(err));
+    };
+    createSurvey();
+  };
 
   const handleAddQuestion = () => {
     setValidated(false);
