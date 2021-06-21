@@ -174,7 +174,7 @@ exports.createSurvey = (survey) => {
         q.answers.forEach((a) => {
           promises.push(
             new Promise((resolve, reject) => {
-              const sql_2 = "INSERT INTO answers(pos, answerText, questionId, surveyId) VALUES(?, ?, ?)";
+              const sql_2 = "INSERT INTO answers(pos, answerText, questionId, surveyId) VALUES(?, ?, ?, ?)";
               db.run(sql_2, [a.id, a.text, values[index], sId], function (err) {
                 if (err) {
                   reject(err);
