@@ -1,4 +1,4 @@
-import { ListGroup, Col, Row, Carousel } from "react-bootstrap";
+import { ListGroup, Col, Row, Carousel, Tab } from "react-bootstrap";
 import { PersonCheckFill, ChevronRight, ChevronLeft } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import Fab from "./Fab";
@@ -16,49 +16,56 @@ function AdminDashboard(props) {
       <h3 id='title-main' className='my-4 text-center text-uppercase'>
         Your surveys
       </h3>
-      <Row className='h-max-content'>
-        <ListGroup as={Col} id='listgroup-admin-surveys' className='pl-3 pr-0 '>
-          {surveys.map((s) => (
-            <ListGroup.Item
-              id='dashboard-list'
-              action
-              key={s.surveyId}
-              onClick={handleClick}
-              className='py-3 m-0 d-flex justify-content-between align-items-center'>
-              Title of your survey
-              <div id='n-surveys' className='d-flex flex-row font-weight-bold align-items-center'>
-                <PersonCheckFill size={25} className='mr-2 ml-5' /> 158
-              </div>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
-        <Col sm={8} id='carousel-col' className='p-0 m-0'>
-          <Carousel
-            className=''
-            interval={null}
-            controls={true}
-            nextIcon={
-              <span>
-                <ChevronRight size={30} className='carousel-ic' />
-              </span>
-            }
-            prevIcon={
-              <span>
-                <ChevronLeft size={30} className='carousel-ic' />
-              </span>
-            }>
-            {/*TODO map submissions */}
+      <Tab.Container id='list-group-tabs-example'>
+        <Row className='h-ms'>
+          <ListGroup as={Col} id='listgroup-admin-surveys' className='pl-3 pr-0 '>
             {surveys.map((s) => (
-              <Carousel.Item key={s.surveyId}>
-                <Survey readOnly={true} sId={s.surveyId} />
-              </Carousel.Item>
+              <ListGroup.Item
+                id='dashboard-list'
+                action
+                href={`#${s.surveyId}`}
+                key={s.surveyId}
+                onClick={handleClick}
+                className='py-3 m-0 d-flex justify-content-between align-items-center'>
+                {s.title}
+                <div id='n-surveys' className='d-flex flex-row font-weight-bold align-items-center'>
+                  <PersonCheckFill size={25} className='mr-2 ml-5' /> 158
+                </div>
+              </ListGroup.Item>
             ))}
-          </Carousel>
-        </Col>
-        <Link to='/admin/create'>
-          <Fab />
-        </Link>
-      </Row>
+          </ListGroup>
+          <Col sm={8} id='carousel-col' className='p-0 m-0'>
+            <Carousel
+              className=''
+              interval={null}
+              controls={true}
+              nextIcon={
+                <span>
+                  <ChevronRight size={30} className='carousel-ic' />
+                </span>
+              }
+              prevIcon={
+                <span>
+                  <ChevronLeft size={30} className='carousel-ic' />
+                </span>
+              }>
+              {/*TODO map submissions */}
+              <Carousel.Item>
+                {surveys.map((s) => (
+                  <Tab.Content>
+                    <Tab.Pane eventKey={`#${s.surveyId}`}>
+                      <Survey readOnly={true} sId={s.surveyId} />
+                    </Tab.Pane>
+                  </Tab.Content>
+                ))}
+              </Carousel.Item>
+            </Carousel>
+          </Col>
+          <Link to='/admin/create'>
+            <Fab />
+          </Link>
+        </Row>
+      </Tab.Container>
     </>
   );
 }
