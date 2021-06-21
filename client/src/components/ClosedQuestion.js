@@ -1,20 +1,42 @@
 import { Card, Form } from "react-bootstrap/";
 import "../css/Question.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function ClosedQuestion(props) {
-  const { question } = props;
+  const { question, validated, subAnswers, setSubAnswers } = props;
   const [checked, setChecked] = useState([]);
+  /* 
+  useEffect(() => {
+    setSubAnswers([...subAnswers, { text: "", answerId: 0, questionId: question.questionId }]);
+  }, []); */
 
   const handleCheck = (e, aId) => {
+    let tmp = [...subAnswers];
+    let i = subAnswers.findIndex((it) => it.questionId === question.questionId);
+
     if (question.max > 1) {
       if (e.target.checked) {
+        if (i != -1 && tmp[i].answerId === aId) {
+          tmp[i].answerId = aId;
+          setSubAnswers(tmp);
+        } else {
+          let tmp = [...subAnswers, { text: "", answerId: aId, questionId: question.questionId }];
+          setSubAnswers(tmp);
+        }
         setChecked([...checked, aId]);
       } else if (!e.target.checked) {
         let tmpChecked = [...checked];
         setChecked(tmpChecked.filter((c) => c != aId));
+        setSubAnswers(tmp.filter((it) => it.answerId !== aId));
       }
     } else {
+      if (i != -1) {
+        tmp[i].answerId = aId;
+        setSubAnswers(tmp);
+      } else {
+        let tmp = [...subAnswers, { text: "", answerId: aId, questionId: question.questionId }];
+        setSubAnswers(tmp);
+      }
       setChecked(aId);
     }
   };
@@ -34,6 +56,7 @@ function ClosedQuestion(props) {
                 <Form.Check
                   key={`custom-${a.answerId}`}
                   custom
+                  required={question.min === 1 && checked.length === 0}
                   disabled={question.max > 1 && checked.length >= question.max && !checked.includes(a.answerId)}
                   onChange={(e) => handleCheck(e, a.answerId)}
                   name='form-check'

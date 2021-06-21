@@ -1,5 +1,4 @@
 import { Spinner, Button, Form, Card } from "react-bootstrap/";
-import { PencilSquare } from "react-bootstrap-icons";
 import OpenQuestion from "./OpenQuestion";
 import ClosedQuestion from "./ClosedQuestion";
 import "../css/Survey.css";
@@ -13,14 +12,36 @@ function Survey(props) {
   const [submissionUser, setSubmissionUser] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [survey, setSurvey] = useState({});
+  const [validated, setValidated] = useState(false);
+  const [submission, setSubmission] = useState({});
+  const [subAnswers, setSubAnswers] = useState([]);
 
   const handleInputName = (value) => {
     setSubmissionUser(value);
   };
 
+  const prepareSubmission = (s) => {
+    let tmp = [];
+    s.questions.forEach((q) => {
+      tmp = [...tmp, { text: "", answerId: -1, questionId: q.questionId }];
+    });
+    //setSubAnswers(tmp);
+    setSubmission({ submissionId: 0, user: "", answers: [], surveyId: s.surveyId });
+  };
+
+  const handleSubmit = (e) => {
+    //TODO validation
+    e.preventDefault();
+    e.stopPropagation();
+    setValidated(true);
+    //a.text, a.answerId, a.questionId,
+    setSubmission({ ...submission, user: submissionUser, answers: [...subAnswers] });
+  };
+
   useEffect(() => {
     const getSurveyById = async (id) => {
       const survey = await API.getSurveyById(id);
+      prepareSubmission(survey);
       setSurvey(survey);
       setIsLoading(false);
     };
@@ -48,7 +69,7 @@ function Survey(props) {
             {survey.title} {submissionUser.length !== 0 ? ` - ${submissionUser}` : ``}
           </h3>
           <div className='survey-page'>
-            <Form noValidate>
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <fieldset disabled={readOnly}>
                 <h6 className='text-right mx-4'>
                   Questions marked with a <span className='mandatory' /> are mandatory
@@ -71,9 +92,21 @@ function Survey(props) {
                   .sort((a, b) => a.pos - b.pos)
                   .map((q) =>
                     q.max === 0 ? (
-                      <OpenQuestion key={q.questionId} question={q} />
+                      <OpenQuestion
+                        key={q.questionId}
+                        question={q}
+                        validated={validated}
+                        subAnswers={subAnswers}
+                        setSubAnswers={setSubAnswers}
+                      />
                     ) : (
-                      <ClosedQuestion key={q.questionId} question={q} />
+                      <ClosedQuestion
+                        key={q.questionId}
+                        question={q}
+                        validated={validated}
+                        subAnswers={subAnswers}
+                        setSubAnswers={setSubAnswers}
+                      />
                     )
                   )}
                 <h6 className='text-right mx-4'>

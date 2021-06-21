@@ -43,7 +43,7 @@ exports.getSurveyById = (surveyId) => {
         const survey = {
           surveyId: row.surveyId,
           title: row.title,
-          adminIs: row.adminId,
+          adminId: row.adminId,
           questions: [],
         };
         resolve(survey);
@@ -212,22 +212,18 @@ exports.getNewSubmissionId = () => {
 exports.createSubmission = (submission) => {
   return this.getNewSubmissionId().then((id) => {
     const promises = [];
-    submission.submissionId = id;
+    //submission.submissionId = id;
     submission.answers.forEach((a) => {
       promises.push(
         new Promise((resolve, reject) => {
           const sql = "INSERT INTO submissions VALUES (?,?,?,?,?,?)";
-          db.run(
-            sql,
-            [submission.submissionId, submission.user, a.text, a.answerId, a.questionId, submission.surveyId],
-            (err) => {
-              if (err) {
-                reject(err);
-                return;
-              }
-              resolve(this.lastId);
+          db.run(sql, [id, submission.user, a.text, a.answerId, a.questionId, submission.surveyId], (err) => {
+            if (err) {
+              reject(err);
+              return;
             }
-          );
+            resolve(this.lastId);
+          });
         })
       );
     });

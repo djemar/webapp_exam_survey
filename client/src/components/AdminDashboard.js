@@ -4,12 +4,16 @@ import { Link } from "react-router-dom";
 import Fab from "./Fab";
 import "./../css/AdminDashboard.css";
 import Survey from "./Survey";
+import { useState } from "react";
 
 const surveys = [1, 2, 3, 4, 5];
 function AdminDashboard(props) {
   const { surveys } = props;
+  const [selectedSId, setSelectedSId] = useState("");
 
-  const handleClick = () => {};
+  const handleClick = (sId) => {
+    setSelectedSId(sId);
+  };
 
   return (
     <>
@@ -25,7 +29,7 @@ function AdminDashboard(props) {
                 action
                 href={`#${s.surveyId}`}
                 key={s.surveyId}
-                onClick={handleClick}
+                onClick={() => handleClick(s.surveyId)}
                 className='py-3 m-0 d-flex justify-content-between align-items-center'>
                 {s.title}
                 <div id='n-surveys' className='d-flex flex-row font-weight-bold align-items-center'>
@@ -50,15 +54,17 @@ function AdminDashboard(props) {
                 </span>
               }>
               {/*TODO map submissions */}
-              <Carousel.Item>
-                {surveys.map((s) => (
-                  <Tab.Content>
-                    <Tab.Pane eventKey={`#${s.surveyId}`}>
-                      <Survey readOnly={true} sId={s.surveyId} />
-                    </Tab.Pane>
-                  </Tab.Content>
+              {surveys
+                .filter((s) => s.surveyId === selectedSId)
+                .map((s) => (
+                  <Carousel.Item key={s.surveyId}>
+                    <Tab.Content>
+                      <Tab.Pane eventKey={`#${s.surveyId}`}>
+                        <Survey readOnly={true} sId={s.surveyId} />
+                      </Tab.Pane>
+                    </Tab.Content>
+                  </Carousel.Item>
                 ))}
-              </Carousel.Item>
             </Carousel>
           </Col>
           <Link to='/admin/create'>
