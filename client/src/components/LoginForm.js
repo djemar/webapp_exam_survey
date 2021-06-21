@@ -18,6 +18,7 @@ const LoginForm = (props) => {
     if (valid) {
       login(credentials);
     } else {
+      //TODO alert box
       setMessage({ msg: `Incorrect email and/or password.`, type: "danger" });
     }
   };
