@@ -1,13 +1,13 @@
 import { Spinner, Button, Form, Card } from "react-bootstrap/";
-import OpenQuestion from "./OpenQuestion";
-import ClosedQuestion from "./ClosedQuestion";
+import OpenEndedQuestion from "./OpenEndedQuestion";
+import CloseEndedQuestion from "./CloseEndedQuestion";
 import "../css/Survey.css";
 import { useHistory, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import API from "../API";
 
 function Survey(props) {
-  const { setMessage, readOnly, sId, setDirty, handleErrors } = props;
+  const { setMessage, readOnly, sId, setDirty, handleErrors, sub } = props;
   const params = useParams();
   const [submissionUser, setSubmissionUser] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -63,7 +63,7 @@ function Survey(props) {
         //setMessage({ msg: `Impossible to load the survey! Please, try again later...`, type: "danger" });
         console.error(err);
       });
-  }, []);
+  }, [sId]);
 
   return (
     <>
@@ -74,57 +74,61 @@ function Survey(props) {
       ) : (
         <>
           <h3 id='title-main' className='my-4 text-center'>
-            {survey.title} {submissionUser.length !== 0 ? ` - ${submissionUser}` : ``}
+            {survey.title} {sub ? ` - ${sub.user}` : ``}
           </h3>
           <div className='survey-page'>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-              <fieldset disabled={readOnly}>
-                <h6 className='text-right mx-4'>
-                  Questions marked with a <span className='mandatory' /> are mandatory
-                </h6>
-                <Card className='open-question-card'>
-                  <Card.Body>
-                    <Card.Title className='question-text mandatory'>What's your name?</Card.Title>
-                    <Form.Group controlId='ControlTextArea-1' className='p-2'>
-                      <Form.Control
-                        required
-                        size='lg'
-                        type='text'
-                        placeholder='John Wick'
-                        onInput={(e) => handleInputName(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Card.Body>
-                </Card>
-                {survey.questions
-                  .sort((a, b) => a.pos - b.pos)
-                  .map((q) =>
-                    q.max === 0 ? (
-                      <OpenQuestion
-                        key={q.questionId}
-                        question={q}
-                        validated={validated}
-                        subAnswers={subAnswers}
-                        setSubAnswers={setSubAnswers}
-                      />
-                    ) : (
-                      <ClosedQuestion
-                        key={q.questionId}
-                        question={q}
-                        validated={validated}
-                        subAnswers={subAnswers}
-                        setSubAnswers={setSubAnswers}
-                      />
-                    )
-                  )}
-                <h6 className='text-right mx-4'>
-                  Questions marked with a <span className='mandatory' /> are mandatory{" "}
-                </h6>
-                {/*TODO hide button if admin*/}
-                <Button type='submit' variant='success' className='mb-5 mt-2'>
-                  Send
-                </Button>
-              </fieldset>
+              <h6 className='text-right mx-4'>
+                Questions marked with a <span className='mandatory' /> are mandatory
+              </h6>
+              <Card className='open-question-card'>
+                <Card.Body>
+                  <Card.Title className='question-text mandatory'>What's your name?</Card.Title>
+                  <Form.Group controlId='ControlTextArea-1' className='p-2'>
+                    <Form.Control
+                      required
+                      defaultValue={readOnly ? sub.user : ""}
+                      disabled={readOnly}
+                      size='lg'
+                      type='text'
+                      placeholder='John Wick'
+                      onInput={(e) => handleInputName(e.target.value)}
+                    />
+                  </Form.Group>
+                </Card.Body>
+              </Card>
+              {survey.questions
+                .sort((a, b) => a.pos - b.pos)
+                .map((q) =>
+                  q.max === 0 ? (
+                    <OpenEndedQuestion
+                      key={q.questionId}
+                      question={q}
+                      sub={sub}
+                      readOnly={readOnly}
+                      validated={validated}
+                      subAnswers={subAnswers}
+                      setSubAnswers={setSubAnswers}
+                    />
+                  ) : (
+                    <CloseEndedQuestion
+                      key={q.questionId}
+                      question={q}
+                      sub={sub}
+                      readOnly={readOnly}
+                      validated={validated}
+                      subAnswers={subAnswers}
+                      setSubAnswers={setSubAnswers}
+                    />
+                  )
+                )}
+              <h6 className='text-right mx-4'>
+                Questions marked with a <span className='mandatory' /> are mandatory{" "}
+              </h6>
+              {/*TODO hide button if admin*/}
+              <Button type='submit' variant='success' className={readOnly ? "invisible mb-5 mt-2" : "mb-5 mt-2"}>
+                Send
+              </Button>
             </Form>
           </div>
         </>

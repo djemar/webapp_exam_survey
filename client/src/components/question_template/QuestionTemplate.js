@@ -34,8 +34,12 @@ function QuestionTemplate(props) {
         //check for empty
         if (a.text.length < 1) valid = false;
       });
-      if (question.max > 1 && question.max > answers.length) {
-        //check if there are enough answers if max > 1
+      if (
+        (question.max > 1 && question.max > answers.length) ||
+        (question.min > 1 && question.min > answers.length) ||
+        (question.max != 0 && question.min > question.max)
+      ) {
+        //check if there are enough answers if max > 1, min > 1
         valid = false;
       }
     }
@@ -93,6 +97,7 @@ function QuestionTemplate(props) {
       tmpQuestions[question.pos].max = 1;
       setQuestionType(QUESTION_TYPE.SINGLE);
     } else if (q === QUESTION_TYPE.MULTIPLE) {
+      tmpQuestions[question.pos].max = 1;
       setQuestionType(QUESTION_TYPE.MULTIPLE);
     }
     setQuestionList(tmpQuestions);
@@ -102,10 +107,19 @@ function QuestionTemplate(props) {
     let tmpQuestions = [...questionList];
     const mandatory = e.target.checked;
     if (mandatory) {
-      tmpQuestions[question.pos].min = 1;
+      if (tmpQuestions[question.pos].min === 0) {
+        tmpQuestions[question.pos].min = 1;
+      }
     } else {
       tmpQuestions[question.pos].min = 0;
     }
+    setQuestionList(tmpQuestions);
+  };
+
+  const handleMinChange = (e) => {
+    let tmpQuestions = [...questionList];
+    const min = parseInt(e.target.value);
+    tmpQuestions[question.pos].min = min;
     setQuestionList(tmpQuestions);
   };
 
@@ -134,26 +148,60 @@ function QuestionTemplate(props) {
               </Form.Control>
             </Col>
           </Form.Group>
+
           {questionType === QUESTION_TYPE.MULTIPLE ? (
-            <Form.Group as={Row} controlId={`form-max-select-${question.key}`}>
-              <Form.Label column>Max number of accepted answers (1-10):</Form.Label>
-              <Col sm='4'>
-                <Form.Control
-                  type='number'
-                  disabled={question.isSaved}
-                  className='dont-validate'
-                  isInvalid={answers.length < question.max}
-                  min={1}
-                  max={10}
-                  defaultValue={1}
-                  onChange={handleMaxChange}
-                />
-                <Form.Control.Feedback type='invalid'>Not enough answers available.</Form.Control.Feedback>
-              </Col>
-            </Form.Group>
+            <>
+              <Form.Group as={Row} controlId={`form-min-select-${question.key}`}>
+                <Form.Label column>Minimum number of accepted answers (0-10):</Form.Label>
+                <Col sm='4'>
+                  <Form.Control
+                    type='number'
+                    disabled={question.isSaved}
+                    className='dont-validate'
+                    isInvalid={answers.length < question.min || question.max < question.min}
+                    min={0}
+                    max={10}
+                    value={question.min}
+                    defaultValue={0}
+                    onChange={handleMinChange}
+                  />
+                  {question.max < question.min ? (
+                    <Form.Control.Feedback type='invalid'>The maximum is less than the minimum.</Form.Control.Feedback>
+                  ) : (
+                    <Form.Control.Feedback type='invalid'>Not enough answers available.</Form.Control.Feedback>
+                  )}
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} controlId={`form-max-select-${question.key}`}>
+                <Form.Label column>Maximum number of accepted answers (1-10):</Form.Label>
+                <Col sm='4'>
+                  <Form.Control
+                    type='number'
+                    disabled={question.isSaved}
+                    className='dont-validate'
+                    isInvalid={answers.length < question.max}
+                    min={1}
+                    max={10}
+                    defaultValue={1}
+                    onChange={handleMaxChange}
+                  />
+                  <Form.Control.Feedback type='invalid'>Not enough answers available.</Form.Control.Feedback>
+                </Col>
+              </Form.Group>
+            </>
           ) : (
             <></>
           )}
+          <Form.Check
+            custom
+            className='d-inline float-right'
+            type='switch'
+            checked={question.min > 0}
+            disabled={question.isSaved}
+            id={`custom-switch-mandatory-${question.key}`}
+            label='This question is mandatory'
+            onChange={handleChangeMandatory}
+          />
         </Card.Header>
         <Card.Body className='closed-question-card'>
           {questionType === QUESTION_TYPE.OPEN ? (
@@ -177,14 +225,6 @@ function QuestionTemplate(props) {
               <> Save Question </>
             )}
           </Button>
-          <Form.Check
-            custom
-            type='switch'
-            disabled={question.isSaved}
-            id={`custom-switch-mandatory-${question.key}`}
-            label='This question is mandatory'
-            onChange={handleChangeMandatory}
-          />
         </Card.Footer>
       </Card>
       <div id='question-actions' className='ml-3 d-flex flex-column'>

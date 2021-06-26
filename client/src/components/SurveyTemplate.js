@@ -30,6 +30,7 @@ function SurveyTemplate(props) {
       API.addSurvey(survey)
         .then(() => {
           setDirty(true);
+          setQuestions([questionTemplate]);
           //TODO redirect to dashboard
           history.push("/admin/mySurveys");
           //setMessage({ msg: `Survey published with success!`, type: "success" });

@@ -3,14 +3,22 @@ import "../css/Question.css";
 import { useEffect, useState } from "react";
 
 function ClosedQuestion(props) {
-  const { question, validated, subAnswers, setSubAnswers } = props;
+  const { question, readOnly, subAnswers, setSubAnswers, sub } = props;
   const [checked, setChecked] = useState([]);
   /* 
   useEffect(() => {
     setSubAnswers([...subAnswers, { text: "", answerId: 0, questionId: question.questionId }]);
   }, []); */
 
+  const readAnswer = (a) => {
+    if (!sub) {
+      return;
+    }
+    return sub.answers.some((it) => it.questionId === question.questionId && it.answerId === a.answerId);
+  };
+
   const handleCheck = (e, aId) => {
+    //TODO write some comments
     let tmp = [...subAnswers];
     let i = subAnswers.findIndex((it) => it.questionId === question.questionId);
 
@@ -44,10 +52,16 @@ function ClosedQuestion(props) {
   return (
     <Card className='closed-question-card'>
       <Card.Body>
-        <Card.Title className={`question-text ${question.min === 1 ? `mandatory` : ``}`}>
+        <Card.Title className={`question-text ${question.min > 0 ? `mandatory` : ``}`}>
           {question.questionText}
         </Card.Title>
-        {question.max > 1 ? <h6 className='pb-1 font-italic'>Choose up to {question.max} answers:</h6> : ""}
+        {question.max > 1 ? (
+          <h6 className='pb-1 font-italic'>
+            Choose from {question.min} up to {question.max} answers:
+          </h6>
+        ) : (
+          ""
+        )}
         <fieldset>
           <Form.Group className='checkbox-group' controlId={`ControlTextArea-${question.questionId}`}>
             {question.answers
@@ -56,8 +70,11 @@ function ClosedQuestion(props) {
                 <Form.Check
                   key={`custom-${a.answerId}`}
                   custom
-                  required={question.min === 1 && checked.length === 0}
-                  disabled={question.max > 1 && checked.length >= question.max && !checked.includes(a.answerId)}
+                  defaultChecked={readOnly ? readAnswer(a) : false}
+                  required={question.min > 0 && checked.length === 0}
+                  disabled={
+                    (question.max > 1 && checked.length >= question.max && !checked.includes(a.answerId)) || readOnly
+                  }
                   onChange={(e) => handleCheck(e, a.answerId)}
                   name='form-check'
                   type={question.max > 1 ? `checkbox` : `radio`}

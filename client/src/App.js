@@ -132,7 +132,13 @@ function App() {
                 render={() => (
                   <>
                     {loggedIn ? (
-                      <AdminDashboard surveys={surveys} setMessage={setMessage} />
+                      <AdminDashboard
+                        surveys={surveys}
+                        dirty={dirty}
+                        setDirty={setDirty}
+                        setLoading={setLoading}
+                        setMessage={setMessage}
+                      />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
                         <Spinner animation='border' variant='primary' />

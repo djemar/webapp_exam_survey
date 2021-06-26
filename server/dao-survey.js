@@ -262,6 +262,36 @@ exports.getSubmissionsBySurveyId = (id) => {
   });
 };
 
+exports.getSubmissions = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM submissions";
+    db.all(sql, (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const submissionsList = rows.map((s) => ({
+        submissionId: s.submissionId,
+        user: s.user,
+        answerText: s.answerText,
+        answerId: s.answerId,
+        questionId: s.questionId,
+        surveyId: s.surveyId,
+      }));
+
+      const groupedSubmissions = groupBy(submissionsList, "submissionId");
+      groupedSubmissions.forEach((obj, index) => {
+        const answers = [];
+        obj.forEach((o) => {
+          answers.push({ answerText: o.answerText, answerId: o.answerId, questionId: o.questionId });
+        });
+        groupedSubmissions[index] = { user: obj[0].user, surveyId: obj[0].surveyId, answers: [...answers] };
+      });
+      resolve(groupedSubmissions);
+    });
+  });
+};
+
 function groupBy(arr, prop) {
   /*The Map instance is created from key/value pairs that are generated from the input array.
     The keys are the values of the property to group by, and the values are initialised as empty arrays.

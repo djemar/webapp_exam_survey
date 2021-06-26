@@ -4,7 +4,7 @@ import "../css/Question.css";
 import { useEffect } from "react";
 
 function OpenQuestion(props) {
-  const { question, subAnswers, setSubAnswers } = props;
+  const { question, subAnswers, setSubAnswers, sub, readOnly } = props;
 
   /*   useEffect(() => {
     setSubAnswers([...subAnswers, { text: "", answerId: 0, questionId: question.questionId }]);
@@ -23,6 +23,14 @@ function OpenQuestion(props) {
     }
   };
 
+  const readAnswer = () => {
+    if (!sub) {
+      return;
+    }
+    const res = sub.answers.find((it) => it.questionId === question.questionId);
+    return res ? res.answerText : "";
+  };
+
   return (
     <Card className='open-question-card'>
       <Card.Body>
@@ -35,6 +43,8 @@ function OpenQuestion(props) {
             as='textarea'
             maxLength='200'
             rows={5}
+            disabled={readOnly}
+            defaultValue={readOnly ? readAnswer() : ""}
             required={question.min === 1}
             onInput={(e) => handleInput(e.target.value)}
           />

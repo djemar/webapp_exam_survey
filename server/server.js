@@ -88,6 +88,7 @@ app.get("/api/sessions/current", (req, res) => {
 // login
 app.post("/api/sessions", [check("username").notEmpty().isAlphanumeric()], function (req, res, next) {
   const errors = validationResult(req);
+  console.log(req.body);
   if (!errors.isEmpty()) return res.status(422).json({ error: "Incorrect email and/or password." });
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
@@ -176,6 +177,14 @@ app.post(
 );
 
 // GET /api/submissions
+app.get("/api/submissions/", (req, res) => {
+  daoSurvey
+    .getSubmissions()
+    .then((submissions) => res.json(submissions))
+    .catch(() => res.status(500).end());
+});
+
+// GET /api/submissions/id
 app.get("/api/submissions/:id", (req, res) => {
   daoSurvey
     .getSubmissionsBySurveyId(req.params.id)
