@@ -205,11 +205,16 @@ function QuestionTemplate(props) {
         </Card.Header>
         <Card.Body className='closed-question-card'>
           {questionType === QUESTION_TYPE.OPEN ? (
-            <OpenEndedTemplate question={question} />
-          ) : questionType === QUESTION_TYPE.SINGLE ? (
-            <CloseEndedTemplate type='radio' question={question} answers={answers} setAnswers={setAnswers} />
+            <OpenEndedTemplate question={question} questionList={questionList} setQuestionList={setQuestionList} />
           ) : (
-            <CloseEndedTemplate type='checkbox' question={question} answers={answers} setAnswers={setAnswers} />
+            <CloseEndedTemplate
+              type={questionType === QUESTION_TYPE.SINGLE ? `radio` : `checkbox`}
+              question={question}
+              answers={answers}
+              setAnswers={setAnswers}
+              questionList={questionList}
+              setQuestionList={setQuestionList}
+            />
           )}
         </Card.Body>
         <Card.Footer bg='light' className='d-flex justify-content-between align-items-center'>
