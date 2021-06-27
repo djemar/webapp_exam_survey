@@ -18,7 +18,7 @@ const questionTemplate = {
 };
 
 function SurveyTemplate(props) {
-  const { handleErrors, user, setDirty } = props;
+  const { handleErrors, user, setDirty, setMessage } = props;
   const [questions, setQuestions] = useState([questionTemplate]);
   const [title, setTitle] = useState("");
   const [validated, setValidated] = useState(false);
@@ -31,9 +31,8 @@ function SurveyTemplate(props) {
         .then(() => {
           setDirty(true);
           setQuestions([questionTemplate]);
-          //TODO redirect to dashboard
           history.push("/admin/mySurveys");
-          //setMessage({ msg: `Survey published with success!`, type: "success" });
+          setMessage({ msg: `Survey published with success!`, type: "success" });
         })
         .catch((err) => handleErrors(err));
     };

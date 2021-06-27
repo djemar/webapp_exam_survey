@@ -22,14 +22,12 @@ function Survey(props) {
   };
 
   const submitSurvey = (sub) => {
-    //    setSurveys((surveys) => [...surveys, survey]);
     const createSubmission = async () => {
       API.addSubmission(sub)
         .then(() => {
           setDirty(true);
-          //TODO redirect to dashboard
           history.push("/");
-          //setMessage({ msg: `Survey published with success!`, type: "success" });
+          setMessage({ msg: `Submission sent with success!`, type: "success" });
         })
         .catch((err) => handleErrors(err));
     };
@@ -60,7 +58,7 @@ function Survey(props) {
       });
     else
       getSurveyById(sId).catch((err) => {
-        //setMessage({ msg: `Impossible to load the survey! Please, try again later...`, type: "danger" });
+        setMessage({ msg: `Impossible to load the survey! Please, try again later...`, type: "danger" });
         console.error(err);
       });
   }, [sId]);

@@ -1,7 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { React, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { Container, Row, Col, Spinner } from "react-bootstrap/";
 import MyNavbar from "./components/Navbar";
 import Survey from "./components/Survey";
@@ -10,12 +10,14 @@ import SurveyTemplate from "./components/SurveyTemplate";
 import SurveyList from "./components/SurveyList";
 import AdminDashboard from "./components/AdminDashboard";
 import API from "./API";
+import AlertBox from "./components/AlertBox";
 
 function App() {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [alert, setAlert] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [surveys, setSurveys] = useState([]);
 
@@ -59,6 +61,12 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (message !== "") {
+      setAlert(true);
+    }
+  }, [message]);
+
   const handleErrors = (err) => {
     if (err.errors) setMessage({ msg: err.errors[0].msg + ": " + err.errors[0].param, type: "danger" });
     else setMessage({ msg: err.error, type: "danger" });
@@ -84,7 +92,8 @@ function App() {
       <Container fluid className='h-100'>
         <MyNavbar loggedIn={loggedIn} logout={doLogout} user={user} />
         <Row className='vh-100 below-nav'>
-          <Col className='text-center'>
+          <Col id='root-col' className='text-center'>
+            <AlertBox alert={alert} setAlert={setAlert} message={message} setMessage={setMessage} />
             <Route
               exact
               path='/'
@@ -156,7 +165,12 @@ function App() {
                 render={() => (
                   <>
                     {loggedIn ? (
-                      <SurveyTemplate handleErrors={handleErrors} user={user} setDirty={setDirty} />
+                      <SurveyTemplate
+                        handleErrors={handleErrors}
+                        user={user}
+                        setDirty={setDirty}
+                        setMessage={setMessage}
+                      />
                     ) : loading ? (
                       <div className='d-flex h-100 flex-column align-items-center justify-content-center'>
                         <Spinner animation='border' variant='primary' />
