@@ -135,6 +135,7 @@ function App() {
                       <AdminDashboard
                         surveys={surveys}
                         dirty={dirty}
+                        user={user}
                         setDirty={setDirty}
                         setLoading={setLoading}
                         setMessage={setMessage}

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import API from "../API";
 
 function AdminDashboard(props) {
-  const { surveys, setLoading, dirty, setDirty, setMessage } = props;
+  const { surveys, user, setLoading, dirty, setDirty, setMessage } = props;
   const [index, setIndex] = useState(0);
   const [selectedSId, setSelectedSId] = useState("");
   const [submissions, setSubmissions] = useState([]);
@@ -46,21 +46,23 @@ function AdminDashboard(props) {
       </h3>
       <Row className='h-ms'>
         <ListGroup as={Col} id='listgroup-admin-surveys' className='pl-3 pr-0 '>
-          {surveys.map((s) => (
-            <ListGroup.Item
-              id='dashboard-list'
-              action
-              href={`#${s.surveyId}`}
-              key={s.surveyId}
-              onClick={() => handleClick(s.surveyId)}
-              className='py-3 m-0 d-flex justify-content-between align-items-center'>
-              {s.title}
-              <div id='n-surveys' className='d-flex flex-row font-weight-bold align-items-center'>
-                <PersonCheckFill size={25} className='mr-2 ml-5' />
-                {submissions.filter((it) => it.surveyId === s.surveyId).length}
-              </div>
-            </ListGroup.Item>
-          ))}
+          {surveys
+            .filter((it) => it.adminId === user.id)
+            .map((s) => (
+              <ListGroup.Item
+                id='dashboard-list'
+                action
+                href={`#${s.surveyId}`}
+                key={s.surveyId}
+                onClick={() => handleClick(s.surveyId)}
+                className='py-3 m-0 d-flex justify-content-between align-items-center'>
+                {s.title}
+                <div id='n-surveys' className='d-flex flex-row font-weight-bold align-items-center'>
+                  <PersonCheckFill size={25} className='mr-2 ml-5' />
+                  {submissions.filter((it) => it.surveyId === s.surveyId).length}
+                </div>
+              </ListGroup.Item>
+            ))}
         </ListGroup>
         <Col sm={8} id='carousel-col' className='p-0 m-0'>
           {selectedSId != "" ? (
