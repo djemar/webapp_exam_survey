@@ -62,29 +62,27 @@ function ClosedQuestion(props) {
         ) : (
           ""
         )}
-        <fieldset>
-          <Form.Group className='checkbox-group' controlId={`ControlTextArea-${question.questionId}`}>
-            {question.answers
-              .sort((a, b) => a.pos - b.pos)
-              .map((a) => (
-                <Form.Check
-                  key={`custom-${a.answerId}`}
-                  custom
-                  defaultChecked={readOnly ? readAnswer(a) : false}
-                  required={question.min > 0 && checked.length === 0}
-                  disabled={
-                    (question.max > 1 && checked.length >= question.max && !checked.includes(a.answerId)) || readOnly
-                  }
-                  onChange={(e) => handleCheck(e, a.answerId)}
-                  name='form-check'
-                  type={question.max > 1 ? `checkbox` : `radio`}
-                  id={`custom-${a.answerId}`}
-                  className='p-3'
-                  label={`${a.answerText}`}
-                />
-              ))}
-          </Form.Group>
-        </fieldset>
+        <Form.Group className='checkbox-group' controlId={`ControlTextArea-${question.questionId}`}>
+          {question.answers
+            .sort((a, b) => a.pos - b.pos)
+            .map((a) => (
+              <Form.Check
+                key={`custom-${a.answerId}`}
+                custom
+                defaultChecked={readOnly ? readAnswer(a) : false}
+                required={question.min > 0 && question.min > checked.length}
+                disabled={
+                  (question.max > 1 && checked.length >= question.max && !checked.includes(a.answerId)) || readOnly
+                }
+                onChange={(e) => handleCheck(e, a.answerId)}
+                name={`form-check-${question.questionId}`}
+                type={question.max > 1 ? `checkbox` : `radio`}
+                id={`custom-${a.answerId}`}
+                className='p-3'
+                label={`${a.answerText}`}
+              />
+            ))}
+        </Form.Group>
       </Card.Body>
     </Card>
   );
