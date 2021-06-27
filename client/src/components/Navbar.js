@@ -1,5 +1,5 @@
 import { Navbar, Nav, Button } from "react-bootstrap/";
-import { PersonFill, JournalCheck, BoxArrowLeft } from "react-bootstrap-icons";
+import { PersonFill, BoxArrowLeft } from "react-bootstrap-icons";
 import "../css/Navbar.css";
 import { Link } from "react-router-dom";
 

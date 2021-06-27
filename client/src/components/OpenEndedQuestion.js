@@ -1,7 +1,5 @@
-import { Card, Nav, Button, Form } from "react-bootstrap/";
-import { PencilSquare } from "react-bootstrap-icons";
+import { Card, Form } from "react-bootstrap/";
 import "../css/Question.css";
-import { useEffect } from "react";
 
 function OpenQuestion(props) {
   const { question, subAnswers, setSubAnswers, sub, readOnly } = props;
@@ -13,7 +11,7 @@ function OpenQuestion(props) {
   const handleInput = (value) => {
     let i = subAnswers.findIndex((it) => it.questionId === question.questionId);
     console.log(value);
-    if (i != -1) {
+    if (i !== -1) {
       let tmp = [...subAnswers];
       tmp[i].text = value;
       setSubAnswers(tmp);

@@ -1,8 +1,7 @@
 import { Card, Form, Button, OverlayTrigger, Tooltip } from "react-bootstrap/";
-import { PencilSquare } from "react-bootstrap-icons";
 import "../css/Survey.css";
 import QuestionTemplate from "./question_template/QuestionTemplate";
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import API from "../API";
 import { useHistory } from "react-router-dom";

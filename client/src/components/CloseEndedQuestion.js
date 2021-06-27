@@ -1,6 +1,6 @@
 import { Card, Form } from "react-bootstrap/";
 import "../css/Question.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function ClosedQuestion(props) {
   const { question, readOnly, subAnswers, setSubAnswers, sub } = props;
@@ -24,7 +24,7 @@ function ClosedQuestion(props) {
 
     if (question.max > 1) {
       if (e.target.checked) {
-        if (i != -1 && tmp[i].answerId === aId) {
+        if (i !== -1 && tmp[i].answerId === aId) {
           tmp[i].answerId = aId;
           setSubAnswers(tmp);
         } else {
@@ -34,11 +34,11 @@ function ClosedQuestion(props) {
         setChecked([...checked, aId]);
       } else if (!e.target.checked) {
         let tmpChecked = [...checked];
-        setChecked(tmpChecked.filter((c) => c != aId));
+        setChecked(tmpChecked.filter((c) => c !== aId));
         setSubAnswers(tmp.filter((it) => it.answerId !== aId));
       }
     } else {
-      if (i != -1) {
+      if (i !== -1) {
         tmp[i].answerId = aId;
         setSubAnswers(tmp);
       } else {

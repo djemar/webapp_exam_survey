@@ -1,7 +1,7 @@
-import { Card, Nav, Button, Form, ListGroup, Row, Col, ButtonGroup, OverlayTrigger, Tooltip } from "react-bootstrap/";
+import { Card, Button, Form, Row, Col, ButtonGroup, OverlayTrigger, Tooltip } from "react-bootstrap/";
 import { TrashFill, ChevronUp, ChevronDown, Check2 } from "react-bootstrap-icons";
 import "../../css/Question.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import OpenEndedTemplate from "./OpenEndedTemplate";
 import CloseEndedTemplate from "./CloseEndedTemplate";
 
@@ -29,7 +29,7 @@ function QuestionTemplate(props) {
 
   const checkAnswers = () => {
     let valid = true;
-    if (question.max != 0) {
+    if (question.max !== 0) {
       answers.forEach((a) => {
         //check for empty
         if (a.text.length < 1) valid = false;
@@ -37,7 +37,7 @@ function QuestionTemplate(props) {
       if (
         (question.max > 1 && question.max > answers.length) ||
         (question.min > 1 && question.min > answers.length) ||
-        (question.max != 0 && question.min > question.max)
+        (question.max !== 0 && question.min > question.max)
       ) {
         //check if there are enough answers if max > 1, min > 1
         valid = false;

@@ -1,4 +1,4 @@
-import { ListGroup, Col, Row, Carousel, Tab } from "react-bootstrap";
+import { ListGroup, Col, Row, Carousel } from "react-bootstrap";
 import { PersonCheckFill, ChevronRight, ChevronLeft } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import Fab from "./Fab";
@@ -65,7 +65,7 @@ function AdminDashboard(props) {
             ))}
         </ListGroup>
         <Col sm={8} id='carousel-col' className='p-0 m-0'>
-          {selectedSId != "" ? (
+          {selectedSId !== "" ? (
             submissions.filter((it) => it.surveyId === selectedSId).length > 0 ? (
               <Carousel
                 className=''
