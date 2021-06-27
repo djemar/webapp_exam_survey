@@ -34,14 +34,26 @@ function Survey(props) {
     createSubmission();
   };
 
+  const checkAnswersValidity = () => {
+    let valid = true;
+    survey.questions.forEach((q) => {
+      let count = subAnswers.filter((it) => it.questionId === q.questionId).length;
+      if (count < q.min) {
+        valid = false;
+      }
+    });
+    return valid;
+  };
+
   const handleSubmit = (e) => {
-    //TODO validation
+    const form = e.currentTarget;
     e.preventDefault();
     e.stopPropagation();
+    if (form.checkValidity() === true && checkAnswersValidity()) {
+      const sub = { ...submission, user: submissionUser, answers: [...subAnswers] };
+      submitSurvey(sub);
+    }
     setValidated(true);
-    //a.text, a.answerId, a.questionId,
-    const sub = { ...submission, user: submissionUser, answers: [...subAnswers] };
-    submitSurvey(sub);
   };
 
   useEffect(() => {
@@ -104,7 +116,6 @@ function Survey(props) {
                       question={q}
                       sub={sub}
                       readOnly={readOnly}
-                      validated={validated}
                       subAnswers={subAnswers}
                       setSubAnswers={setSubAnswers}
                     />
@@ -114,7 +125,6 @@ function Survey(props) {
                       question={q}
                       sub={sub}
                       readOnly={readOnly}
-                      validated={validated}
                       subAnswers={subAnswers}
                       setSubAnswers={setSubAnswers}
                     />
@@ -123,7 +133,6 @@ function Survey(props) {
               <h6 className='text-right mx-4'>
                 Questions marked with a <span className='mandatory' /> are mandatory{" "}
               </h6>
-              {/*TODO hide button if admin*/}
               <Button type='submit' variant='success' className={readOnly ? "invisible mb-5 mt-2" : "mb-5 mt-2"}>
                 Send
               </Button>
