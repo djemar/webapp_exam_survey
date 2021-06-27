@@ -20,7 +20,7 @@ exports.getSurveys = () => {
       const survey = rows.map((s) => ({
         surveyId: s.surveyId,
         title: s.title,
-        adminIs: s.adminId,
+        adminId: s.adminId,
       }));
       resolve(survey);
     });
@@ -132,7 +132,7 @@ exports.getSurveysByAdmin = (adminId) => {
         const survey = rows.map((s) => ({
           surveyId: s.surveyId,
           title: s.title,
-          adminIs: s.adminId,
+          adminId: s.adminId,
         }));
         resolve(survey);
       }
