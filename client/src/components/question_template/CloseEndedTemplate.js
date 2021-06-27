@@ -22,8 +22,10 @@ function CloseEndedTemplate(props) {
   };
 
   const handleInputQuestion = (value) => {
-    //TODO do not change state directly
-    question.text = value;
+    let tmpQuestions = [...questionList];
+    tmpQuestions[question.pos].text = value;
+    setQuestionList(tmpQuestions);
+    //question.text = value;
   };
 
   const handleDeleteAnswer = (id) => {

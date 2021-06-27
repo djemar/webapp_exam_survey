@@ -1,12 +1,14 @@
-import { Card, Nav, Button, Form, ListGroup, Row, Col } from "react-bootstrap/";
-import { PencilSquare } from "react-bootstrap-icons";
+import { Card, Form } from "react-bootstrap/";
 import "../../css/Question.css";
 
 function OpenEndedTemplate(props) {
-  const { question, setValidated } = props;
+  const { question, questionList, setQuestionList } = props;
+
   const handleInputQuestion = (value) => {
-    //TODO do not change state directly
-    question.text = value;
+    let tmpQuestions = [...questionList];
+    tmpQuestions[question.pos].text = value;
+    setQuestionList(tmpQuestions);
+    //question.text = value;
   };
 
   return (
