@@ -4,7 +4,7 @@ import "../../css/Question.css";
 import { v4 as uuidv4 } from "uuid";
 
 function CloseEndedTemplate(props) {
-  const { type, question, answers, setAnswers } = props;
+  const { type, question, questionList, setQuestionList, answers, setAnswers } = props;
 
   const handleAddAnswer = () => {
     if (answers.length < 10) setAnswers([...answers, { key: uuidv4(), id: answers.length, text: "" }]);
@@ -78,7 +78,7 @@ function CloseEndedTemplate(props) {
               size='sm'
               onClick={handleAddAnswer}>
               <Plus />
-              Add answer
+              {answers.length === 10 ? "Maximum number of questions reached" : "Add answer"}
             </Button>
           </div>
         )}
