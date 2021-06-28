@@ -1,7 +1,7 @@
 import { Card, Form } from "react-bootstrap/";
 import "../css/Question.css";
 
-function OpenQuestion(props) {
+function OpenEndedQuestion(props) {
   const { question, subAnswers, setSubAnswers, sub, readOnly } = props;
 
   /*   useEffect(() => {
@@ -52,4 +52,4 @@ function OpenQuestion(props) {
   );
 }
 
-export default OpenQuestion;
+export default OpenEndedQuestion;

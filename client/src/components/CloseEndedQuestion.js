@@ -2,7 +2,7 @@ import { Card, Form } from "react-bootstrap/";
 import "../css/Question.css";
 import { useState } from "react";
 
-function ClosedQuestion(props) {
+function CloseEndedQuestion(props) {
   const { question, readOnly, subAnswers, setSubAnswers, sub } = props;
   const [checked, setChecked] = useState([]);
   /* 
@@ -88,4 +88,4 @@ function ClosedQuestion(props) {
   );
 }
 
-export default ClosedQuestion;
+export default CloseEndedQuestion;
