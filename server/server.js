@@ -132,13 +132,13 @@ app.get("/api/surveys", (req, res) => {
     .catch(() => res.status(500).end());
 });
 
-// GET /api/admin/surveys
+/* // GET /api/admin/surveys
 app.get("/api/admin/surveys", (req, res) => {
   daoSurvey
     .getSurveysByAdmin(req.user.id)
     .then((surveys) => res.json(surveys))
     .catch(() => res.status(500).end());
-});
+}); */
 
 // GET /api/surveys/<id>
 app.get("/api/surveys/:id", (req, res) => {
@@ -184,13 +184,13 @@ app.get("/api/submissions/", (req, res) => {
     .catch(() => res.status(500).end());
 });
 
-// GET /api/submissions/id
+/* // GET /api/submissions/id
 app.get("/api/submissions/:id", (req, res) => {
   daoSurvey
     .getSubmissionsBySurveyId(req.params.id)
     .then((submissions) => res.json(submissions))
     .catch(() => res.status(500).end());
-});
+}); */
 
 // POST /api/submissions
 app.post("/api/submissions", [check("user").notEmpty()], (req, res) => {
