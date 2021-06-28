@@ -1,3 +1,6 @@
+const errorMessage1 = { error: "Cannot parse server response." };
+const errorMessage2 = { error: "Cannot communicate with the server." };
+
 async function getSurveys() {
   try {
     const response = await fetch("/api/surveys");
@@ -9,10 +12,10 @@ async function getSurveys() {
         throw surveysJson;
       }
     } catch {
-      throw { error: "Cannot parse server response." };
+      throw errorMessage1;
     }
   } catch {
-    throw { error: "Cannot communicate with the server." };
+    throw errorMessage2;
   }
 }
 
@@ -27,10 +30,10 @@ async function getSurveyById(surveyId) {
         throw surveyJson;
       }
     } catch {
-      throw { error: "Cannot parse server response." };
+      throw errorMessage1;
     }
   } catch {
-    throw { error: "Cannot communicate with the server." };
+    throw errorMessage2;
   }
 }
 
@@ -45,10 +48,10 @@ async function getSurveysByAdmin() {
         throw surveysJson;
       }
     } catch {
-      throw { error: "Cannot parse server response." };
+      throw errorMessage1;
     }
   } catch {
-    throw { error: "Cannot communicate with the server." };
+    throw errorMessage2;
   }
 }
 
@@ -67,11 +70,11 @@ async function addSurvey(survey) {
         const responseJSON = await response.json();
         throw responseJSON;
       } catch {
-        throw { error: "Cannot parse server response." };
+        throw errorMessage1;
       }
     }
   } catch {
-    throw { error: "Cannot communicate with the server" };
+    throw errorMessage2;
   }
 }
 
@@ -86,10 +89,10 @@ async function getSubmissions() {
         throw submissionsJson;
       }
     } catch {
-      throw { error: "Cannot parse server response." };
+      throw errorMessage1;
     }
   } catch {
-    throw { error: "Cannot communicate with the server." };
+    throw errorMessage2;
   }
 }
 
@@ -104,10 +107,10 @@ async function getSubmissionById(submissionId) {
         throw submissionJson;
       }
     } catch {
-      throw { error: "Cannot parse server response." };
+      throw errorMessage1;
     }
   } catch {
-    throw { error: "Cannot communicate with the server." };
+    throw errorMessage2;
   }
 }
 
@@ -126,11 +129,11 @@ async function addSubmission(submission) {
         const responseJSON = await response.json();
         throw responseJSON;
       } catch {
-        throw { error: "Cannot parse server response." };
+        throw errorMessage1;
       }
     }
   } catch {
-    throw { error: "Cannot communicate with the server" };
+    throw errorMessage2;
   }
 }
 
