@@ -69,7 +69,7 @@ function QuestionTemplate(props) {
 
   const updateId = (tmpQuestionList) => {
     tmpQuestionList.forEach((q, index) => {
-      q.pos = index; //iterate over array and update ids -> necessary if item from the middle of array is removed
+      q.pos = index; //iterate over array and update pos -> necessary if item from the middle of array is removed
     });
   };
 
@@ -283,14 +283,13 @@ function QuestionTemplate(props) {
 }
 
 function move(input, from, to) {
-  //TODO https://dev.to/jalal246/moving-element-in-an-array-from-index-to-another-464b
-  let numberOfDeletedElm = 1;
+  let deleteCount = 1;
 
-  const elm = input.splice(from, numberOfDeletedElm)[0];
+  const elm = input.splice(from, deleteCount)[0]; //remove and return the element from the array
 
-  numberOfDeletedElm = 0;
+  deleteCount = 0;
 
-  input.splice(to, numberOfDeletedElm, elm);
+  input.splice(to, deleteCount, elm); //add it back in the new position
 }
 
 export default QuestionTemplate;

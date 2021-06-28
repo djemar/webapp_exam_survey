@@ -18,31 +18,34 @@ function CloseEndedQuestion(props) {
   };
 
   const handleCheck = (e, aId) => {
-    //TODO write some comments
     let tmp = [...subAnswers];
     let i = subAnswers.findIndex((it) => it.questionId === question.questionId);
 
     if (question.max > 1) {
+      //check if it is a multiple-choice question
       if (e.target.checked) {
         if (i !== -1 && tmp[i].answerId === aId) {
+          //if the answer is already in the array update it
           tmp[i].answerId = aId;
           setSubAnswers(tmp);
         } else {
-          let tmp = [...subAnswers, { text: "", answerId: aId, questionId: question.questionId }];
+          let tmp = [...subAnswers, { text: "", answerId: aId, questionId: question.questionId }]; // else create the answer object
           setSubAnswers(tmp);
         }
-        setChecked([...checked, aId]);
+        setChecked([...checked, aId]); // array used to validate and check constraints
       } else if (!e.target.checked) {
+        //remove the answer if it is unchecked
         let tmpChecked = [...checked];
         setChecked(tmpChecked.filter((c) => c !== aId));
         setSubAnswers(tmp.filter((it) => it.answerId !== aId));
       }
     } else {
       if (i !== -1) {
-        tmp[i].answerId = aId;
+        // this is a single-choice question
+        tmp[i].answerId = aId; //if it answer is in the array update id
         setSubAnswers(tmp);
       } else {
-        let tmp = [...subAnswers, { text: "", answerId: aId, questionId: question.questionId }];
+        let tmp = [...subAnswers, { text: "", answerId: aId, questionId: question.questionId }]; // else create the answer object
         setSubAnswers(tmp);
       }
       setChecked(aId);
