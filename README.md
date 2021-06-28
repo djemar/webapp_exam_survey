@@ -307,7 +307,7 @@ Response body: _None_
 
 ## Users Credentials
 
-| Username | Password    | Surveys |
-| :------- | :---------- | :------ |
-| johnwick | continental |         |
-| dantes   | montecristo |         |
+| Username | Password    | Surveys                                                         |
+| :------- | :---------- | :-------------------------------------------------------------- |
+| johnwick | continental | _Let's sing! Cartoon Edition_, _Usability Testing: bespoke.com_ |
+| dantes   | montecristo | _Never gonna give you up_, _Italiani e il cibo_                 |
