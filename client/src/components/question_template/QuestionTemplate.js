@@ -1,7 +1,7 @@
 import { Card, Button, Form, Row, Col, ButtonGroup, OverlayTrigger, Tooltip } from "react-bootstrap/";
 import { TrashFill, ChevronUp, ChevronDown, Check2 } from "react-bootstrap-icons";
 import "../../css/Question.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OpenEndedTemplate from "./OpenEndedTemplate";
 import CloseEndedTemplate from "./CloseEndedTemplate";
 
@@ -19,6 +19,16 @@ function QuestionTemplate(props) {
   const { questionList, setQuestionList, question, setValidated } = props;
   const [questionType, setQuestionType] = useState(QUESTION_TYPE.OPEN);
   const [answers, setAnswers] = useState([answerTemplate]);
+
+  useEffect(() => {
+    // if a user saves a question, then exits the creation and then tries to create another survey, the first question data is still present.
+    // This should clean it while maintaining the previous key and avoiding rendering issues
+    if (question.isSaved) {
+      let tmpQuestions = [...questionList];
+      tmpQuestions[question.pos] = { ...question, pos: 0, min: 0, max: 0, text: "", answers: [], isSaved: false };
+      setQuestionList(tmpQuestions);
+    }
+  }, []);
 
   const handleDeleteQuestion = (pos) => {
     let newQuestions = [...questionList];
