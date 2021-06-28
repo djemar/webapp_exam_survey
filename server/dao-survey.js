@@ -142,7 +142,7 @@ exports.getSurveysByAdmin = (adminId) => {
 
 // add a new survey
 exports.createSurvey = (survey) => {
-  //TODO rollback
+  //In a real scenario a rollback is needed
   return new Promise((resolve, reject) => {
     const sql = "INSERT INTO surveys(title, adminId) VALUES(?, ?)";
     db.run(sql, [survey.title, survey.adminId], function (err) {
@@ -152,43 +152,47 @@ exports.createSurvey = (survey) => {
       }
       resolve(this.lastID);
     });
-  }).then((sId) => {
-    const promises = [];
-    survey.questions.forEach((q) => {
-      promises.push(
-        new Promise((resolve, reject) => {
-          const sql = "INSERT INTO questions(questionText, min, max, pos, surveyId) VALUES(?, ?, ?, ?, ?)";
-          db.run(sql, [q.text, q.min, q.max, q.pos, sId], function (err) {
-            if (err) {
-              reject(err);
-              return;
-            }
-            resolve(this.lastID);
-          });
-        })
-      );
-    });
-    Promise.all([...promises]).then((values) => {
+  })
+    .then((sId) => {
       const promises = [];
-      survey.questions.forEach((q, index) => {
-        q.answers.forEach((a) => {
-          promises.push(
-            new Promise((resolve, reject) => {
-              const sql_2 = "INSERT INTO answers(pos, answerText, questionId, surveyId) VALUES(?, ?, ?, ?)";
-              db.run(sql_2, [a.id, a.text, values[index], sId], function (err) {
-                if (err) {
-                  reject(err);
-                  return;
-                }
-                resolve(this.lastID);
-              });
-            })
-          );
-        });
+      survey.questions.forEach((q) => {
+        promises.push(
+          new Promise((resolve, reject) => {
+            const sql = "INSERT INTO questions(questionText, min, max, pos, surveyId) VALUES(?, ?, ?, ?, ?)";
+            db.run(sql, [q.text, q.min, q.max, q.pos, sId], function (err) {
+              if (err) {
+                reject(err);
+                return;
+              }
+              resolve(this.lastID);
+            });
+          })
+        );
       });
-      return Promise.all([...promises]);
+      Promise.all([...promises]).then((values) => {
+        const promises = [];
+        survey.questions.forEach((q, index) => {
+          q.answers.forEach((a) => {
+            promises.push(
+              new Promise((resolve, reject) => {
+                const sql_2 = "INSERT INTO answers(pos, answerText, questionId, surveyId) VALUES(?, ?, ?, ?)";
+                db.run(sql_2, [a.id, a.text, values[index], sId], function (err) {
+                  if (err) {
+                    reject(err);
+                    return;
+                  }
+                  resolve(this.lastID);
+                });
+              })
+            );
+          });
+        });
+        return Promise.all([...promises]);
+      });
+    })
+    .catch(() => {
+      throw { error: "Error while inserting into db." };
     });
-  });
 };
 
 exports.getNewSubmissionId = () => {
@@ -210,25 +214,29 @@ exports.getNewSubmissionId = () => {
 };
 
 exports.createSubmission = (submission) => {
-  return this.getNewSubmissionId().then((id) => {
-    const promises = [];
-    //submission.submissionId = id;
-    submission.answers.forEach((a) => {
-      promises.push(
-        new Promise((resolve, reject) => {
-          const sql = "INSERT INTO submissions VALUES (?,?,?,?,?,?)";
-          db.run(sql, [id, submission.user, a.text, a.answerId, a.questionId, submission.surveyId], (err) => {
-            if (err) {
-              reject(err);
-              return;
-            }
-            resolve(this.lastId);
-          });
-        })
-      );
+  return this.getNewSubmissionId()
+    .then((id) => {
+      const promises = [];
+      //submission.submissionId = id;
+      submission.answers.forEach((a) => {
+        promises.push(
+          new Promise((resolve, reject) => {
+            const sql = "INSERT INTO submissions VALUES (?,?,?,?,?,?)";
+            db.run(sql, [id, submission.user, a.text, a.answerId, a.questionId, submission.surveyId], (err) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+              resolve(this.lastId);
+            });
+          })
+        );
+      });
+      return Promise.all([...promises]);
+    })
+    .catch(() => {
+      throw { error: "Error while inserting into db." };
     });
-    return Promise.all([...promises]);
-  });
 };
 
 // get all submissions by survey ID
