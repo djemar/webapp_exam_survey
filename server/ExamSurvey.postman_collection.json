@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "0bcba05d-7547-4e62-a05b-8427f9d0c3d2",
+		"name": "ExamSurvey",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateSurvey",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"TestTitle\",\r\n    \"adminId\": 1,\r\n    \"questions\": [\r\n        {\r\n            \"questionText\": \"testQuestion\",\r\n            \"min\": 1,\r\n            \"max\": 1,\r\n            \"pos\": 1,\r\n            \"answers\": [\r\n                {\r\n                    \"answerText\": \"testAnswer11\"\r\n                },\r\n                {\r\n                    \"answerText\": \"testAnswer12\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"questionText\": \"testQuestion2\",\r\n            \"min\": 1,\r\n            \"max\": 1,\r\n            \"pos\": 2,\r\n            \"answers\": [\r\n                {\r\n                    \"answerText\": \"testAnswer21\"\r\n                },\r\n                {\r\n                    \"answerText\": \"testAnswer22\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/surveys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"surveys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSurveys",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/surveys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"surveys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSurveyById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/surveys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"surveys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSurveysByAdmin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/api/admin/surveys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"admin",
+						"surveys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateSubmission",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"user\": \"edmond\",\r\n   \"answers\":[{\r\n       \"answerText\":\"Revenge\",\r\n       \"answerId\" : null,\r\n       \"questionId\" : 1\r\n   },{\r\n       \"answerText\":null,\r\n       \"answerId\" : 1,\r\n       \"questionId\" : 2\r\n   }],\r\n   \"surveyId\":1 \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/api/submissions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"api",
+						"submissions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSubmissionsBySurveyId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}
