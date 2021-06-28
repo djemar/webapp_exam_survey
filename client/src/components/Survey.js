@@ -97,6 +97,7 @@ function Survey(props) {
                   <Form.Group controlId='ControlTextArea-1' className='p-2'>
                     <Form.Control
                       required
+                      key={survey.title}
                       defaultValue={readOnly ? sub.user : ""}
                       disabled={readOnly}
                       size='lg'
